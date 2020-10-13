@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/bottom_navigation">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@layout/fragment_upcoming"
+    android:id="@+id/bottom_navigation">
+
+    <fragment
+        android:name="com.example.codewatch.UpcomingFragment"
+        android:id="@+id/nav_upcoming"
+        tools:layout="@layout/fragment_upcoming"
+        android:label="fragment_upcoming"
+        />
+    <fragment
+        android:name="com.example.codewatch.OngoingFragment"
+        android:id="@+id/nav_ongoing"
+        tools:layout="@layout/fragment_ongoing"
+        android:label="fragment_ongoing"
+        />
+    <fragment
+        android:name="com.example.codewatch.AboutFragment"
+        android:id="@+id/nav_about"
+        tools:layout="@layout/fragment_about"
+        android:label="fragment_about"
+        />
 
 </navigation>
