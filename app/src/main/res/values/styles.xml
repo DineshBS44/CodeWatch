@@ -7,4 +7,21 @@
         <item name="colorAccent">@android:color/white</item>
     </style>
 
+    <style name="TitleText" parent="Widget.MaterialComponents.TextView">
+        <item name="fontFamily">@font/cerebri_sans_bold</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="elevation">1dp</item>
+        <item name="lineHeight">30dp</item>
+    </style>
+
+    <style name="TitleTextDisabled" parent="Widget.MaterialComponents.TextView">
+        <item name="fontFamily">@font/cerebri_sans_bold</item>
+        <item name="android:textColor">@color/color_disabled</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="lineHeight">30dp</item>
+    </style>
+
 </resources>
