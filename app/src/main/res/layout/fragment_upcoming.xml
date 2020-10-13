@@ -15,14 +15,25 @@
         app:layout_constraintStart_toEndOf="parent">
 
         <TextView
-            android:id="@+id/upcoming_short"
+            android:id="@+id/upcoming_all"
             style="@style/TitleText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Short" />
+            android:text="All" />
+
+        <TextView
+            android:id="@+id/upcoming_short"
+            style="@style/TitleTextDisabled"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Short"
+            android:textColor="@color/color_disabled" />
 
         <TextView
             android:id="@+id/upcoming_long"
@@ -33,17 +44,6 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Long"
-            android:textColor="@color/color_disabled" />
-
-        <TextView
-            android:id="@+id/upcoming_all"
-            style="@style/TitleTextDisabled"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="All"
             android:textColor="@color/color_disabled" />
 
 
