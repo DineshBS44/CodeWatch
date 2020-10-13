@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:itemHorizontalTranslationEnabled="false"
-        app:itemIconSize="27dp"
+        app:itemIconSize="25dp"
         app:itemIconTint="@drawable/icon_background"
         app:itemTextColor="@color/colorAccent"
         app:labelVisibilityMode="selected"
