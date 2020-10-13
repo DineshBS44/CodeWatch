@@ -2,26 +2,23 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/nav_upcoming"
-    android:id="@+id/bottom_navigation">
+    android:id="@+id/bottom_navigation"
+    app:startDestination="@id/nav_upcoming">
 
     <fragment
-        android:name="com.example.codewatch.UpcomingFragment"
         android:id="@+id/nav_upcoming"
-        tools:layout="@layout/fragment_upcoming"
+        android:name="com.example.codewatch.UpcomingFragment"
         android:label="fragment_upcoming"
-        />
+        tools:layout="@layout/fragment_upcoming" />
     <fragment
-        android:name="com.example.codewatch.OngoingFragment"
         android:id="@+id/nav_ongoing"
-        tools:layout="@layout/fragment_ongoing"
+        android:name="com.example.codewatch.OngoingFragment"
         android:label="fragment_ongoing"
-        />
+        tools:layout="@layout/fragment_ongoing" />
     <fragment
-        android:name="com.example.codewatch.AboutFragment"
         android:id="@+id/nav_about"
-        tools:layout="@layout/fragment_about"
+        android:name="com.example.codewatch.AboutFragment"
         android:label="fragment_about"
-        />
+        tools:layout="@layout/fragment_about" />
 
 </navigation>
