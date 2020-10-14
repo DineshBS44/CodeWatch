@@ -14,6 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/upcoming_all_rv"
+        tools:listitem="@layout/list_item_contest_rv"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
