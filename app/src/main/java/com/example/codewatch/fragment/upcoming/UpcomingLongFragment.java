@@ -1,4 +1,4 @@
-package com.example.codewatch.fragment;
+package com.example.codewatch.fragment.upcoming;
 
 import android.os.Bundle;
 
@@ -12,10 +12,10 @@ import com.example.codewatch.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link OngoingFragment#newInstance} factory method to
+ * Use the {@link UpcomingLongFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class OngoingFragment extends Fragment {
+public class UpcomingLongFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class OngoingFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public OngoingFragment() {
+    public UpcomingLongFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class OngoingFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment OngoingFragment.
+     * @return A new instance of fragment UpcomingLongFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static OngoingFragment newInstance(String param1, String param2) {
-        OngoingFragment fragment = new OngoingFragment();
+    public static UpcomingLongFragment newInstance(String param1, String param2) {
+        UpcomingLongFragment fragment = new UpcomingLongFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class OngoingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ongoing, container, false);
+        return inflater.inflate(R.layout.fragment_upcoming_long, container, false);
     }
 }

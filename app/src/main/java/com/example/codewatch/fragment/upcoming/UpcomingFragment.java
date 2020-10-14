@@ -1,4 +1,4 @@
-package com.example.codewatch.fragment;
+package com.example.codewatch.fragment.upcoming;
 
 import android.os.Bundle;
 

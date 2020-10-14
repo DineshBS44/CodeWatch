@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/nav_upcoming"
-        android:name="com.example.codewatch.fragment.UpcomingFragment"
+        android:name="com.example.codewatch.fragment.upcoming.UpcomingFragment"
         android:label="fragment_upcoming"
         tools:layout="@layout/fragment_upcoming" />
     <fragment
         android:id="@+id/nav_ongoing"
-        android:name="com.example.codewatch.fragment.OngoingFragment"
+        android:name="com.example.codewatch.fragment.ongoing.OngoingFragment"
         android:label="fragment_ongoing"
         tools:layout="@layout/fragment_ongoing" />
     <fragment
