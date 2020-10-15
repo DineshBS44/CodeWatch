@@ -35,7 +35,7 @@ public class UpcomingShortFragment extends Fragment {
     public static UpcomingShortFragment newInstance(ArrayList<Objects> contestsShort) {
         UpcomingShortFragment fragment = new UpcomingShortFragment();
         Bundle args = new Bundle();
-        args.putParcelableArrayList(CONTESTS_SHORT_KEY,contestsShort);
+        args.putParcelableArrayList(CONTESTS_SHORT_KEY, contestsShort);
         fragment.setArguments(args);
         return fragment;
     }
@@ -44,7 +44,7 @@ public class UpcomingShortFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            contestsShort=getArguments().getParcelableArrayList(CONTESTS_SHORT_KEY);
+            contestsShort = getArguments().getParcelableArrayList(CONTESTS_SHORT_KEY);
         }
     }
 
@@ -62,7 +62,7 @@ public class UpcomingShortFragment extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         upcomingShortRecyclerView.setLayoutManager(linearLayoutManager);
-        Log.i("UpcomingShortFragment","UpcomingShortFragment contestsShort : "+contestsShort.size());
+        Log.i("UpcomingShortFragment", "UpcomingShortFragment contestsShort : " + contestsShort.size());
         upcomingShortRecyclerView.setAdapter(new UpcomingShortAdapter(contestsShort));
 
         ItemClickSupport.addTo(upcomingShortRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
@@ -78,7 +78,7 @@ public class UpcomingShortFragment extends Fragment {
         Intent intentContestDetail = new Intent(getActivity(), ContestDetail.class);
         Bundle extras = new Bundle();
         extras.putParcelable("EXTRA_CONTEST", contestsShort);
-        extras.putParcelable("EXTRA_CONTEST_2",contestsShort.getResource());
+        extras.putParcelable("EXTRA_CONTEST_2", contestsShort.getResource());
         intentContestDetail.putExtras(extras);
         startActivity(intentContestDetail);
     }

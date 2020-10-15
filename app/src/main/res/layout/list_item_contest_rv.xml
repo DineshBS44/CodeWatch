@@ -7,9 +7,9 @@
     android:background="@color/colorPrimaryDark">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/contest_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/contest_card"
         android:layout_margin="10dp"
         android:background="@color/colorPrimary"
         app:cardCornerRadius="8dp"
@@ -52,10 +52,10 @@
                     android:id="@+id/contest_name"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/cerebri_sans_regular"
                     android:maxLines="1"
-                    android:layout_marginTop="1dp"
                     android:text="October Long Challenge 2020"
                     android:textColor="@android:color/white"
                     android:textSize="11sp" />
@@ -65,8 +65,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
                 android:layout_gravity="right"
+                android:layout_marginLeft="6dp"
                 android:gravity="right"
                 android:orientation="vertical">
 

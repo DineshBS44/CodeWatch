@@ -35,7 +35,7 @@ public class UpcomingLongFragment extends Fragment {
     public static UpcomingLongFragment newInstance(ArrayList<Objects> contestsLong) {
         UpcomingLongFragment fragment = new UpcomingLongFragment();
         Bundle args = new Bundle();
-        args.putParcelableArrayList(CONTESTS_LONG_KEY,contestsLong);
+        args.putParcelableArrayList(CONTESTS_LONG_KEY, contestsLong);
         fragment.setArguments(args);
         return fragment;
     }
@@ -44,7 +44,7 @@ public class UpcomingLongFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            contestsLong=getArguments().getParcelableArrayList(CONTESTS_LONG_KEY);
+            contestsLong = getArguments().getParcelableArrayList(CONTESTS_LONG_KEY);
         }
     }
 
@@ -62,7 +62,7 @@ public class UpcomingLongFragment extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         upcomingLongRecyclerView.setLayoutManager(linearLayoutManager);
-        Log.i("UpcomingLongFragment","UpcomingLongFragment contestsLong : "+contestsLong.size());
+        Log.i("UpcomingLongFragment", "UpcomingLongFragment contestsLong : " + contestsLong.size());
         upcomingLongRecyclerView.setAdapter(new UpcomingLongAdapter(contestsLong));
 
         ItemClickSupport.addTo(upcomingLongRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
@@ -78,7 +78,7 @@ public class UpcomingLongFragment extends Fragment {
         Intent intentContestDetail = new Intent(getActivity(), ContestDetail.class);
         Bundle extras = new Bundle();
         extras.putParcelable("EXTRA_CONTEST", contestsLong);
-        extras.putParcelable("EXTRA_CONTEST_2",contestsLong.getResource());
+        extras.putParcelable("EXTRA_CONTEST_2", contestsLong.getResource());
         intentContestDetail.putExtras(extras);
         startActivity(intentContestDetail);
     }

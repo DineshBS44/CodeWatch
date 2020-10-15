@@ -25,14 +25,14 @@ public class UpcomingAdapter extends FragmentStateAdapter {
         this.contestsAll = contestsAll;
         this.contestsShort = contestsShort;
         this.contestsLong = contestsLong;
-        Log.i("UpcomingAdapter","The contestsAll size in UpcomingAdapter2 is "+this.contestsAll.size());
+        Log.i("UpcomingAdapter", "The contestsAll size in UpcomingAdapter2 is " + this.contestsAll.size());
     }
 
 
     @NotNull
     @Override
     public Fragment createFragment(int position) {
-        Log.i("UpcomingAdapter","The contestsAll size in UpcomingAdapter is "+contestsAll.size());
+        Log.i("UpcomingAdapter", "The contestsAll size in UpcomingAdapter is " + contestsAll.size());
         switch (position) {
             case 0:
                 return UpcomingAllFragment.newInstance(contestsAll);
