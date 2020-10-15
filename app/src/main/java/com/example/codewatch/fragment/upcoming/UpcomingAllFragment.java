@@ -63,7 +63,7 @@ public class UpcomingAllFragment extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         upcomingAllRecyclerView.setLayoutManager(linearLayoutManager);
-        Log.i("UpcomingAllFragment","The contestsAll size in UpcomingAllFragment is "+contestsAll.size());
+        Log.i("UpcomingAllFragment","UpcomingAllFragment contestsAll : "+contestsAll.size());
         upcomingAllRecyclerView.setAdapter(new UpcomingAllAdapter(contestsAll));
 
     }

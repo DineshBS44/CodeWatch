@@ -8,12 +8,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.codewatch.R;
 import com.example.codewatch.adapter.upcoming.UpcomingAllAdapter;
+import com.example.codewatch.adapter.upcoming.UpcomingLongAdapter;
 import com.example.codewatch.model.Objects;
 
 import java.util.ArrayList;
@@ -58,7 +60,8 @@ public class UpcomingLongFragment extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         upcomingLongRecyclerView.setLayoutManager(linearLayoutManager);
-        upcomingLongRecyclerView.setAdapter(new UpcomingAllAdapter(contestsLong));
+        Log.i("UpcomingLongFragment","UpcomingLongFragment contestsLong : "+contestsLong.size());
+        upcomingLongRecyclerView.setAdapter(new UpcomingLongAdapter(contestsLong));
 
     }
 

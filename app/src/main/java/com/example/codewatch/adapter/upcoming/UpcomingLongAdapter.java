@@ -39,7 +39,7 @@ public class UpcomingLongAdapter extends RecyclerView.Adapter<UpcomingLongAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        if(contests.get(position).getResource().getName().equals("atcoder.com"))
+        if(contests.get(position).getResource().getName().equals("atcoder.jp"))
         {
             holder.platformImage.setImageResource(R.drawable.ic_atcoder);
             holder.platform.setText("ATCODER");
