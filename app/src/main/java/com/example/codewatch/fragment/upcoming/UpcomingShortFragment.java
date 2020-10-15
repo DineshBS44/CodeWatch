@@ -1,5 +1,6 @@
 package com.example.codewatch.fragment.upcoming;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,7 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.codewatch.R;
-import com.example.codewatch.adapter.upcoming.UpcomingAllAdapter;
+import com.example.codewatch.activity.ContestDetail;
+import com.example.codewatch.adapter.ItemClickSupport;
 import com.example.codewatch.adapter.upcoming.UpcomingShortAdapter;
 import com.example.codewatch.model.Objects;
 
@@ -63,6 +65,21 @@ public class UpcomingShortFragment extends Fragment {
         Log.i("UpcomingShortFragment","UpcomingShortFragment contestsShort : "+contestsShort.size());
         upcomingShortRecyclerView.setAdapter(new UpcomingShortAdapter(contestsShort));
 
+        ItemClickSupport.addTo(upcomingShortRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                showSelectedContestDetail(contestsShort.get(position));
+            }
+        });
+
     }
 
+    private void showSelectedContestDetail(Objects contestsShort) {
+        Intent intentContestDetail = new Intent(getActivity(), ContestDetail.class);
+        Bundle extras = new Bundle();
+        extras.putParcelable("EXTRA_CONTEST", contestsShort);
+        extras.putParcelable("EXTRA_CONTEST_2",contestsShort.getResource());
+        intentContestDetail.putExtras(extras);
+        startActivity(intentContestDetail);
+    }
 }

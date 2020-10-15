@@ -1,5 +1,6 @@
 package com.example.codewatch.fragment.upcoming;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,7 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.codewatch.R;
-import com.example.codewatch.adapter.upcoming.UpcomingAllAdapter;
+import com.example.codewatch.activity.ContestDetail;
+import com.example.codewatch.adapter.ItemClickSupport;
 import com.example.codewatch.adapter.upcoming.UpcomingLongAdapter;
 import com.example.codewatch.model.Objects;
 
@@ -63,6 +65,21 @@ public class UpcomingLongFragment extends Fragment {
         Log.i("UpcomingLongFragment","UpcomingLongFragment contestsLong : "+contestsLong.size());
         upcomingLongRecyclerView.setAdapter(new UpcomingLongAdapter(contestsLong));
 
+        ItemClickSupport.addTo(upcomingLongRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                showSelectedContestDetail(contestsLong.get(position));
+            }
+        });
+
     }
 
+    private void showSelectedContestDetail(Objects contestsLong) {
+        Intent intentContestDetail = new Intent(getActivity(), ContestDetail.class);
+        Bundle extras = new Bundle();
+        extras.putParcelable("EXTRA_CONTEST", contestsLong);
+        extras.putParcelable("EXTRA_CONTEST_2",contestsLong.getResource());
+        intentContestDetail.putExtras(extras);
+        startActivity(intentContestDetail);
+    }
 }

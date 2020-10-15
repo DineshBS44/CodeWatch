@@ -1,7 +1,6 @@
 package com.example.codewatch.fragment.upcoming;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,9 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.codewatch.R;
+import com.example.codewatch.activity.ContestDetail;
+import com.example.codewatch.adapter.ItemClickSupport;
 import com.example.codewatch.adapter.upcoming.UpcomingAllAdapter;
 import com.example.codewatch.model.Objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class UpcomingAllFragment extends Fragment {
@@ -66,5 +68,24 @@ public class UpcomingAllFragment extends Fragment {
         Log.i("UpcomingAllFragment","UpcomingAllFragment contestsAll : "+contestsAll.size());
         upcomingAllRecyclerView.setAdapter(new UpcomingAllAdapter(contestsAll));
 
+        ItemClickSupport.addTo(upcomingAllRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                Log.i("UpcomingAllFragment","position of click : " + position);
+                Log.i("UpcomingAllFragment","on click contestsAll size is : " + contestsAll.size());
+                showSelectedContestDetail(contestsAll.get(position));
+            }
+        });
+
+    }
+
+    private void showSelectedContestDetail(Objects contestsAll) {
+        Log.i("UpcomingAllFragment","on click contestsAll.getpos platform name is : " + contestsAll.getResource().getName());
+        Intent intentContestDetail = new Intent(getActivity(), ContestDetail.class);
+        Bundle extras = new Bundle();
+        extras.putParcelable("EXTRA_CONTEST", contestsAll);
+        extras.putParcelable("EXTRA_CONTEST_2",contestsAll.getResource());
+        intentContestDetail.putExtras(extras);
+        startActivity(intentContestDetail);
     }
 }

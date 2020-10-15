@@ -9,6 +9,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/contest_card"
         android:layout_margin="10dp"
         android:background="@color/colorPrimary"
         app:cardCornerRadius="8dp"
@@ -38,22 +39,23 @@
 
                 <TextView
                     android:id="@+id/contest_platform"
-                    android:layout_width="145dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:fontFamily="@font/cerebri_sans_bold"
                     android:maxLines="1"
                     android:text="CODECHEF"
                     android:textColor="@color/colorAccent"
-                    android:textSize="19sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/contest_name"
-                    android:layout_width="145dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:fontFamily="@font/cerebri_sans_regular"
                     android:maxLines="1"
+                    android:layout_marginTop="1dp"
                     android:text="October Long Challenge 2020"
                     android:textColor="@android:color/white"
                     android:textSize="11sp" />
@@ -61,9 +63,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
+                android:layout_gravity="right"
+                android:gravity="right"
                 android:orientation="vertical">
 
                 <TextView
@@ -71,13 +75,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="3dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/cerebri_sans_regular"
                     android:maxLines="1"
                     android:text="16:35 - 18:35"
                     android:textColor="@color/colorAccent"
-                    android:textSize="13sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/contest_date"
@@ -87,7 +91,7 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/cerebri_sans_regular"
                     android:maxLines="1"
-                    android:text="30/12/2020 - 31/12/2020"
+                    android:text="30/12/20 - 31/12/20"
                     android:textColor="@android:color/white"
                     android:textSize="13sp" />
 
