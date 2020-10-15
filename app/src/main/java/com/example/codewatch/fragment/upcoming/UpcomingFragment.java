@@ -40,9 +40,9 @@ public class UpcomingFragment extends Fragment {
     private final static String format = "json";
     private final static String orderBy = "start";
     private final static Integer duration = 21600;
-    final ArrayList<Objects> contestsAll=new ArrayList<>();
+    /*final ArrayList<Objects> contestsAll=new ArrayList<>();
     final ArrayList<Objects> contestsShort=new ArrayList<>();
-    final ArrayList<Objects> contestsLong=new ArrayList<>();
+    final ArrayList<Objects> contestsLong=new ArrayList<>();*/
     ViewPager2 viewPager;
     TextView allTextView, shortTextView, longTextView;
 
@@ -104,12 +104,12 @@ public class UpcomingFragment extends Fragment {
             }
         });
 
-        fetchData();
-        Log.i(TAG,"The size of contestsAll after passing to access is "+contestsAll.size());
+        fetchDataAll();
+        //Log.i(TAG,"The size of contestsAll after passing to access is "+contestsAll.size());
 
     }
 
-    private void fetchData()
+    private void fetchDataAll()
     {
 
         Calendar cal = Calendar.getInstance();
@@ -122,10 +122,10 @@ public class UpcomingFragment extends Fragment {
         Date dateAfterOneWeek = cal.getTime();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd,HH:mm:ss", Locale.getDefault());
-        String currentDateandTime = sdf.format(currentDate);
-        currentDateandTime=currentDateandTime.replace(",","T");
-        String dateAndTimeAfterOneWeek = sdf.format(dateAfterOneWeek);
-        dateAndTimeAfterOneWeek=dateAndTimeAfterOneWeek.replace(",","T");
+        String currentDateTime = sdf.format(currentDate);
+        final String currentDateandTime=currentDateTime.replace(",","T");
+        String dateTimeAfterOneWeek = sdf.format(dateAfterOneWeek);
+        final String dateAndTimeAfterOneWeek=dateTimeAfterOneWeek.replace(",","T");
 
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
@@ -134,8 +134,9 @@ public class UpcomingFragment extends Fragment {
             @Override
             public void onResponse(Call<Contest> call, Response<Contest> response) {
                 int statusCode = response.code();
-                ArrayList<Objects> contests = response.body().getObjects();
-                accessArrayListAll(contests);
+                ArrayList<Objects> contestsAll = response.body().getObjects();
+                fetchDataShort(contestsAll, currentDateandTime, dateAndTimeAfterOneWeek);
+                //viewPager.setAdapter(new UpcomingAdapter(UpcomingFragment.this,contests,contests,contests));
                 //Log.i(TAG,"The size of contestsAll is "+contestsAll.size());
             }
 
@@ -147,6 +148,7 @@ public class UpcomingFragment extends Fragment {
         });
 
 
+        /*
         call = apiService.getUpcomingShortContest(format,orderBy,currentDateandTime,dateAndTimeAfterOneWeek,duration,USER_NAME,API_KEY);
         call.enqueue(new Callback<Contest>() {
             @Override
@@ -184,9 +186,11 @@ public class UpcomingFragment extends Fragment {
         Log.i(TAG,"The size of contestsLong in fetchData is "+contestsLong.size());
         viewPager.setAdapter(new UpcomingAdapter(UpcomingFragment.this,contestsAll,contestsShort,contestsLong));
 
+         */
+
     }
 
-    public void accessArrayListAll(ArrayList<Objects> contests){
+    /*public void accessArrayListAll(ArrayList<Objects> contests){
         contestsAll.addAll(contests);
     }
     public void accessArrayListShort(ArrayList<Objects> contests){
@@ -194,6 +198,50 @@ public class UpcomingFragment extends Fragment {
     }
     public void accessArrayListLong(ArrayList<Objects> contests){
         contestsLong.addAll(contests);
+    }*/
+
+    private void fetchDataShort(ArrayList<Objects> contestsAll, String currentDateandTime, String dateAndTimeAfterOneWeek)
+    {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<Contest> call = apiService.getUpcomingShortContest(format,orderBy,currentDateandTime,dateAndTimeAfterOneWeek,duration,USER_NAME,API_KEY);
+        call.enqueue(new Callback<Contest>() {
+            @Override
+            public void onResponse(Call<Contest> call, Response<Contest> response) {
+                int statusCode = response.code();
+                ArrayList<Objects> contestsShort = response.body().getObjects();
+                fetchDataLong(contestsAll,contestsShort,currentDateandTime,dateAndTimeAfterOneWeek);
+                //Log.i(TAG,"The size of contestsShort is "+contestsShort.size());
+            }
+
+            @Override
+            public void onFailure(Call<Contest> call, Throwable t) {
+                // Log error here since request failed
+                Log.e(TAG, t.toString());
+            }
+        });
+    }
+    private void fetchDataLong(ArrayList<Objects> contestsAll, ArrayList<Objects> contestsShort, String currentDateandTime, String dateAndTimeAfterOneWeek)
+    {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<Contest> call = apiService.getUpcomingLongContest(format,orderBy,currentDateandTime,dateAndTimeAfterOneWeek,duration,USER_NAME,API_KEY);
+        call.enqueue(new Callback<Contest>() {
+            @Override
+            public void onResponse(Call<Contest> call, Response<Contest> response) {
+                int statusCode = response.code();
+                ArrayList<Objects> contestsLong = response.body().getObjects();
+                Log.i(TAG,"contestsAll : "+contestsAll.size());
+                Log.i(TAG,"contestsShort : "+contestsShort.size());
+                Log.i(TAG,"contestsLong : "+contestsLong.size());
+                viewPager.setAdapter(new UpcomingAdapter(UpcomingFragment.this,contestsAll,contestsShort,contestsLong));
+                //Log.i(TAG,"The size of contestsLong is "+contestsLong.size());
+            }
+
+            @Override
+            public void onFailure(Call<Contest> call, Throwable t) {
+                // Log error here since request failed
+                Log.e(TAG, t.toString());
+            }
+        });
     }
 
 }
