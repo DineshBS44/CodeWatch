@@ -1,27 +1,91 @@
 package com.example.codewatch.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Meta {
+public class Meta implements Parcelable {
 
     @SerializedName("limit")
     private Integer limit;
     @SerializedName("next")
-    private Integer next;
+    private String next;
     @SerializedName("offset")
     private Integer offset;
     @SerializedName("previous")
-    private Integer previous;
+    private String previous;
     @SerializedName("total_count")
     private Integer totalCount;
 
-    public Meta(Integer limit, Integer next, Integer offset, Integer previous, Integer totalCount) {
+    public Meta(Integer limit, String next, Integer offset, String previous, Integer totalCount) {
         this.limit = limit;
         this.next = next;
         this.offset = offset;
         this.previous = previous;
         this.totalCount = totalCount;
     }
+
+    protected Meta(Parcel in) {
+        if (in.readByte() == 0) {
+            limit = null;
+        } else {
+            limit = in.readInt();
+        }
+        next = in.readString();
+        if (in.readByte() == 0) {
+            offset = null;
+        } else {
+            offset = in.readInt();
+        }
+        previous = in.readString();
+        if (in.readByte() == 0) {
+            totalCount = null;
+        } else {
+            totalCount = in.readInt();
+        }
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (limit == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(limit);
+        }
+        dest.writeString(next);
+        if (offset == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(offset);
+        }
+        dest.writeString(previous);
+        if (totalCount == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(totalCount);
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Meta> CREATOR = new Creator<Meta>() {
+        @Override
+        public Meta createFromParcel(Parcel in) {
+            return new Meta(in);
+        }
+
+        @Override
+        public Meta[] newArray(int size) {
+            return new Meta[size];
+        }
+    };
 
     public Integer getLimit() {
         return limit;
@@ -31,11 +95,11 @@ public class Meta {
         this.limit = limit;
     }
 
-    public Integer getNext() {
+    public String getNext() {
         return next;
     }
 
-    public void setNext(Integer next) {
+    public void setNext(String next) {
         this.next = next;
     }
 
@@ -47,11 +111,11 @@ public class Meta {
         this.offset = offset;
     }
 
-    public Integer getPrevious() {
+    public String getPrevious() {
         return previous;
     }
 
-    public void setPrevious(Integer previous) {
+    public void setPrevious(String previous) {
         this.previous = previous;
     }
 
@@ -62,4 +126,5 @@ public class Meta {
     public void setTotalCount(Integer totalCount) {
         this.totalCount = totalCount;
     }
+
 }
