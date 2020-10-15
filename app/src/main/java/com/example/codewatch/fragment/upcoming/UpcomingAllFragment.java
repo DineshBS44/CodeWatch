@@ -1,7 +1,6 @@
 package com.example.codewatch.fragment.upcoming;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,13 +9,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.codewatch.R;
+import com.example.codewatch.activity.ContestDetail;
+import com.example.codewatch.adapter.ItemClickSupport;
 import com.example.codewatch.adapter.upcoming.UpcomingAllAdapter;
 import com.example.codewatch.model.Objects;
 
@@ -66,5 +66,18 @@ public class UpcomingAllFragment extends Fragment {
         Log.i("UpcomingAllFragment","UpcomingAllFragment contestsAll : "+contestsAll.size());
         upcomingAllRecyclerView.setAdapter(new UpcomingAllAdapter(contestsAll));
 
+        ItemClickSupport.addTo(upcomingAllRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                showSelectedContestDetail(contestsAll.get(position));
+            }
+        });
+
+    }
+
+    private void showSelectedContestDetail(Objects contestsAll) {
+        Intent intentContestDetail = new Intent(getActivity(), ContestDetail.class);
+        intentContestDetail.putExtra("EXTRA_CONTEST", contestsAll);
+        startActivity(intentContestDetail);
     }
 }

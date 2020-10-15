@@ -134,7 +134,7 @@ public class UpcomingLongAdapter extends RecyclerView.Adapter<UpcomingLongAdapte
         startDateTime=startDateTime.replace("T",",");
         endDateTime=endDateTime.replace("T",",");
         SimpleDateFormat dfStart = new SimpleDateFormat("yyyy-MM-dd,HH:mm:ss", Locale.ENGLISH);
-        SimpleDateFormat dfStart2=new SimpleDateFormat("dd/MM/yyyy,HH:mm",Locale.ENGLISH);
+        SimpleDateFormat dfStart2=new SimpleDateFormat("dd/MM/yy,HH:mm",Locale.ENGLISH);
         dfStart.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date dateStart = null;
         try {
@@ -147,7 +147,7 @@ public class UpcomingLongAdapter extends RecyclerView.Adapter<UpcomingLongAdapte
 
 
         SimpleDateFormat dfEnd = new SimpleDateFormat("yyyy-MM-dd,HH:mm:ss", Locale.ENGLISH);
-        SimpleDateFormat dfEnd2=new SimpleDateFormat("dd/MM/yyyy,HH:mm",Locale.ENGLISH);
+        SimpleDateFormat dfEnd2=new SimpleDateFormat("dd/MM/yy,HH:mm",Locale.ENGLISH);
         dfEnd.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date dateEnd = null;
         try {
