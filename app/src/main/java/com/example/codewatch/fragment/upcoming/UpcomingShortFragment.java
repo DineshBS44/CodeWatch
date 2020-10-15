@@ -76,7 +76,10 @@ public class UpcomingShortFragment extends Fragment {
 
     private void showSelectedContestDetail(Objects contestsShort) {
         Intent intentContestDetail = new Intent(getActivity(), ContestDetail.class);
-        intentContestDetail.putExtra("EXTRA_CONTEST", contestsShort);
+        Bundle extras = new Bundle();
+        extras.putParcelable("EXTRA_CONTEST", contestsShort);
+        extras.putParcelable("EXTRA_CONTEST_2",contestsShort.getResource());
+        intentContestDetail.putExtras(extras);
         startActivity(intentContestDetail);
     }
 }

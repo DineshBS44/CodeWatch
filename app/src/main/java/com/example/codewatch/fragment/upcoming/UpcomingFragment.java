@@ -177,11 +177,38 @@ public class UpcomingFragment extends Fragment {
             public void onResponse(Call<Contest> call, Response<Contest> response) {
                 int statusCode = response.code();
                 ArrayList<Objects> contestsLong = java.util.Objects.requireNonNull(response).body().getObjects();
+
+                for(int j=contestsAll.size()-1;j>=0;j--)
+                {
+                    Objects objects = contestsAll.get(j);
+                    if((!objects.getResource().getName().equals("atcoder.jp")) && (!objects.getResource().getName().equals("codechef.com")) && (!objects.getResource().getName().equals("codeforces.com")) && (!objects.getResource().getName().equals("codingcompetitions.withgoogle.com")) && (!objects.getResource().getName().equals("hackerearth.com")) && (!objects.getResource().getName().equals("hackerrank.com")) && (!objects.getResource().getName().equals("leetcode.com")) && (!objects.getResource().getName().equals("topcoder.com")))
+                    {
+                        contestsAll.remove(objects);
+                    }
+                }
+                for(int j=contestsShort.size()-1;j>=0;j--)
+                {
+                    Objects objects = contestsShort.get(j);
+                    if((!objects.getResource().getName().equals("atcoder.jp")) && (!objects.getResource().getName().equals("codechef.com")) && (!objects.getResource().getName().equals("codeforces.com")) && (!objects.getResource().getName().equals("codingcompetitions.withgoogle.com")) && (!objects.getResource().getName().equals("hackerearth.com")) && (!objects.getResource().getName().equals("hackerrank.com")) && (!objects.getResource().getName().equals("leetcode.com")) && (!objects.getResource().getName().equals("topcoder.com")))
+                    {
+                        contestsShort.remove(objects);
+                    }
+                }
+                for(int j=contestsLong.size()-1;j>=0;j--)
+                {
+                    Objects objects = contestsLong.get(j);
+                    if((!objects.getResource().getName().equals("atcoder.jp")) && (!objects.getResource().getName().equals("codechef.com")) && (!objects.getResource().getName().equals("codeforces.com")) && (!objects.getResource().getName().equals("codingcompetitions.withgoogle.com")) && (!objects.getResource().getName().equals("hackerearth.com")) && (!objects.getResource().getName().equals("hackerrank.com")) && (!objects.getResource().getName().equals("leetcode.com")) && (!objects.getResource().getName().equals("topcoder.com")))
+                    {
+                        contestsLong.remove(objects);
+                    }
+                }
                 Log.i(TAG,"contestsAll : "+contestsAll.size());
                 Log.i(TAG,"contestsShort : "+contestsShort.size());
                 Log.i(TAG,"contestsLong : "+contestsLong.size());
+
+                Log.i(TAG,"The size of contestsLong after all changes is "+contestsLong.size());
+
                 viewPager.setAdapter(new UpcomingAdapter(UpcomingFragment.this,contestsAll,contestsShort,contestsLong));
-                //Log.i(TAG,"The size of contestsLong is "+contestsLong.size());
             }
 
             @Override

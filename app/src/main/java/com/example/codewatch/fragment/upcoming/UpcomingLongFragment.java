@@ -76,7 +76,10 @@ public class UpcomingLongFragment extends Fragment {
 
     private void showSelectedContestDetail(Objects contestsLong) {
         Intent intentContestDetail = new Intent(getActivity(), ContestDetail.class);
-        intentContestDetail.putExtra("EXTRA_CONTEST", contestsLong);
+        Bundle extras = new Bundle();
+        extras.putParcelable("EXTRA_CONTEST", contestsLong);
+        extras.putParcelable("EXTRA_CONTEST_2",contestsLong.getResource());
+        intentContestDetail.putExtras(extras);
         startActivity(intentContestDetail);
     }
 }

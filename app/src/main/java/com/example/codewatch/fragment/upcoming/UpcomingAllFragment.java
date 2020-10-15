@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.example.codewatch.adapter.ItemClickSupport;
 import com.example.codewatch.adapter.upcoming.UpcomingAllAdapter;
 import com.example.codewatch.model.Objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class UpcomingAllFragment extends Fragment {
@@ -69,6 +71,8 @@ public class UpcomingAllFragment extends Fragment {
         ItemClickSupport.addTo(upcomingAllRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                Log.i("UpcomingAllFragment","position of click : " + position);
+                Log.i("UpcomingAllFragment","on click contestsAll size is : " + contestsAll.size());
                 showSelectedContestDetail(contestsAll.get(position));
             }
         });
@@ -76,8 +80,12 @@ public class UpcomingAllFragment extends Fragment {
     }
 
     private void showSelectedContestDetail(Objects contestsAll) {
+        Log.i("UpcomingAllFragment","on click contestsAll.getpos platform name is : " + contestsAll.getResource().getName());
         Intent intentContestDetail = new Intent(getActivity(), ContestDetail.class);
-        intentContestDetail.putExtra("EXTRA_CONTEST", contestsAll);
+        Bundle extras = new Bundle();
+        extras.putParcelable("EXTRA_CONTEST", contestsAll);
+        extras.putParcelable("EXTRA_CONTEST_2",contestsAll.getResource());
+        intentContestDetail.putExtras(extras);
         startActivity(intentContestDetail);
     }
 }
