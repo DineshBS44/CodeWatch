@@ -13,10 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.codewatch.R;
 import com.example.codewatch.activity.ContestDetail;
 import com.example.codewatch.adapter.ItemClickSupport;
+import com.example.codewatch.adapter.upcoming.UpcomingAllAdapter;
 import com.example.codewatch.adapter.upcoming.UpcomingShortAdapter;
 import com.example.codewatch.model.Objects;
 
@@ -27,6 +29,7 @@ public class UpcomingShortFragment extends Fragment {
     private static final String CONTESTS_SHORT_KEY = "CONTESTS_SHORT";
     ArrayList<Objects> contestsShort = new ArrayList<>();
     RecyclerView upcomingShortRecyclerView;
+    TextView emptyUpcomingShort;
 
     public UpcomingShortFragment() {
         // Required empty public constructor
@@ -59,11 +62,18 @@ public class UpcomingShortFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         upcomingShortRecyclerView = view.findViewById(R.id.upcoming_short_rv);
+        emptyUpcomingShort=view.findViewById(R.id.empty_upcoming_short_tv);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         upcomingShortRecyclerView.setLayoutManager(linearLayoutManager);
-        Log.i("UpcomingShortFragment", "UpcomingShortFragment contestsShort : " + contestsShort.size());
-        upcomingShortRecyclerView.setAdapter(new UpcomingShortAdapter(contestsShort));
+        //Log.i("UpcomingShortFragment", "UpcomingShortFragment contestsShort : " + contestsShort.size());
+
+        if(contestsShort==null || contestsShort.size()==0)
+        {
+            emptyUpcomingShort.setVisibility(View.VISIBLE);
+        }
+        else
+            upcomingShortRecyclerView.setAdapter(new UpcomingShortAdapter(contestsShort));
 
         ItemClickSupport.addTo(upcomingShortRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override

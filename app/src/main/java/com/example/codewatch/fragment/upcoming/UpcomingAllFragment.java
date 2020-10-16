@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.codewatch.R;
 import com.example.codewatch.activity.ContestDetail;
@@ -27,8 +28,9 @@ import java.util.ArrayList;
 public class UpcomingAllFragment extends Fragment {
 
     private static final String CONTESTS_ALL_KEY = "CONTESTS_ALL";
-    ArrayList<Objects> contestsAll = new ArrayList<>();
+    ArrayList<Objects> contestsAll=new ArrayList<>();
     RecyclerView upcomingAllRecyclerView;
+    TextView emptyUpcomingAll;
 
     public UpcomingAllFragment() {
         // Required empty public constructor
@@ -37,7 +39,7 @@ public class UpcomingAllFragment extends Fragment {
     public static UpcomingAllFragment newInstance(ArrayList<Objects> contestsAll) {
         UpcomingAllFragment fragment = new UpcomingAllFragment();
         Bundle args = new Bundle();
-        Log.i("UpcomingAllFragment", "The contestsAll size in UpcomingAllFragment is " + contestsAll.size());
+        //Log.i("UpcomingAllFragment", "The contestsAll size in UpcomingAllFragment is " + contestsAll.size());
         args.putParcelableArrayList(CONTESTS_ALL_KEY, contestsAll);
         fragment.setArguments(args);
         return fragment;
@@ -62,17 +64,23 @@ public class UpcomingAllFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         upcomingAllRecyclerView = view.findViewById(R.id.upcoming_all_rv);
+        emptyUpcomingAll=view.findViewById(R.id.empty_upcoming_all_tv);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         upcomingAllRecyclerView.setLayoutManager(linearLayoutManager);
-        Log.i("UpcomingAllFragment", "UpcomingAllFragment contestsAll : " + contestsAll.size());
-        upcomingAllRecyclerView.setAdapter(new UpcomingAllAdapter(contestsAll));
+        //Log.i("UpcomingAllFragment", "UpcomingAllFragment contestsAll : " + contestsAll.size());
+        if(contestsAll!=null && contestsAll.size()!=0)
+        {
+            upcomingAllRecyclerView.setAdapter(new UpcomingAllAdapter(contestsAll));
+        }
+        else
+            emptyUpcomingAll.setVisibility(View.VISIBLE);
 
         ItemClickSupport.addTo(upcomingAllRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                 Log.i("UpcomingAllFragment", "position of click : " + position);
-                Log.i("UpcomingAllFragment", "on click contestsAll size is : " + contestsAll.size());
+                //Log.i("UpcomingAllFragment", "on click contestsAll size is : " + contestsAll.size());
                 showSelectedContestDetail(contestsAll.get(position));
             }
         });
@@ -80,7 +88,7 @@ public class UpcomingAllFragment extends Fragment {
     }
 
     private void showSelectedContestDetail(Objects contestsAll) {
-        Log.i("UpcomingAllFragment", "on click contestsAll.getpos platform name is : " + contestsAll.getResource().getName());
+        //Log.i("UpcomingAllFragment", "on click contestsAll.getpos platform name is : " + contestsAll.getResource().getName());
         Intent intentContestDetail = new Intent(getActivity(), ContestDetail.class);
         Bundle extras = new Bundle();
         extras.putParcelable("EXTRA_CONTEST", contestsAll);

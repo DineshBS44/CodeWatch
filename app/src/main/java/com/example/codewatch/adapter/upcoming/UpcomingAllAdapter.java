@@ -125,7 +125,10 @@ public class UpcomingAllAdapter extends RecyclerView.Adapter<UpcomingAllAdapter.
             e.printStackTrace();
         }
         dfStart2.setTimeZone(TimeZone.getDefault());
-        String formattedStartDateTime = dfStart2.format(dateStart);
+        String formattedStartDateTime = null;
+        if (dateStart != null) {
+            formattedStartDateTime = dfStart2.format(dateStart);
+        }
 
 
         SimpleDateFormat dfEnd = new SimpleDateFormat("yyyy-MM-dd,HH:mm:ss", Locale.ENGLISH);

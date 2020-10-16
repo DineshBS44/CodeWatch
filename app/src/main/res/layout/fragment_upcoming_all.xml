@@ -11,6 +11,24 @@
         android:background="@color/colorPrimaryDark"
         tools:context=".fragment.upcoming.UpcomingAllFragment">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="170dp"
+            android:id="@+id/empty_upcoming_all_tv"
+            android:text="There are no contests in the Upcoming week"
+            android:textSize="25sp"
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/cerebri_sans_bold"
+            android:padding="20dp"
+            android:gravity="center"
+            android:visibility="gone"
+            />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/upcoming_all_rv"
             android:layout_width="match_parent"
@@ -18,7 +36,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/list_item_contest_rv" />
+            tools:listitem="@layout/list_item_contest_rv"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

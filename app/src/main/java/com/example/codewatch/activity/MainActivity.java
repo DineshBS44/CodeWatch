@@ -64,7 +64,9 @@ public class MainActivity extends AppCompatActivity {
         overlayFrame.displayOverlay(true);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_container);
-        navController = navHostFragment.getNavController();
+        if (navHostFragment != null) {
+            navController = navHostFragment.getNavController();
+        }
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
         fetchDataAllUpcoming();
@@ -100,8 +102,13 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<Contest>() {
             @Override
             public void onResponse(Call<Contest> call, Response<Contest> response) {
-                int statusCode = response.code();
-                ArrayList<Objects> contestsAll = java.util.Objects.requireNonNull(response).body().getObjects();
+                ArrayList<Objects> contestsAll;
+                if(response.body()!=null) {
+                    int statusCode = response.code();
+                    contestsAll = response.body().getObjects();
+                }
+                else
+                    contestsAll=null;
                 fetchDataShortUpcoming(contestsAll, currentDateandTime, dateAndTimeAfterOneWeek);
                 //Log.i(TAG,"The size of contestsAll is "+contestsAll.size());
             }
@@ -122,8 +129,13 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<Contest>() {
             @Override
             public void onResponse(Call<Contest> call, Response<Contest> response) {
-                int statusCode = response.code();
-                ArrayList<Objects> contestsShort = java.util.Objects.requireNonNull(response).body().getObjects();
+                ArrayList<Objects> contestsShort;
+                if(response.body()!=null) {
+                    int statusCode = response.code();
+                    contestsShort = response.body().getObjects();
+                }
+                else
+                    contestsShort=null;
                 fetchDataLongUpcoming(contestsAll, contestsShort, currentDateandTime, dateAndTimeAfterOneWeek);
                 //Log.i(TAG,"The size of contestsShort is "+contestsShort.size());
             }
@@ -143,32 +155,41 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<Contest>() {
             @Override
             public void onResponse(Call<Contest> call, Response<Contest> response) {
-                int statusCode = response.code();
-                ArrayList<Objects> contestsLong = java.util.Objects.requireNonNull(response).body().getObjects();
-
+                ArrayList<Objects> contestsLong;
+                if(response.body()!=null) {
+                    int statusCode = response.code();
+                    contestsLong = response.body().getObjects();
+                }
+                else
+                    contestsLong=null;
+                if(contestsAll!=null)
                 for (int j = contestsAll.size() - 1; j >= 0; j--) {
                     Objects objects = contestsAll.get(j);
                     if ((!objects.getResource().getName().equals("atcoder.jp")) && (!objects.getResource().getName().equals("codechef.com")) && (!objects.getResource().getName().equals("codeforces.com")) && (!objects.getResource().getName().equals("codingcompetitions.withgoogle.com")) && (!objects.getResource().getName().equals("hackerearth.com")) && (!objects.getResource().getName().equals("hackerrank.com")) && (!objects.getResource().getName().equals("leetcode.com")) && (!objects.getResource().getName().equals("topcoder.com"))) {
                         contestsAll.remove(objects);
                     }
                 }
+
+                if(contestsShort!=null)
                 for (int j = contestsShort.size() - 1; j >= 0; j--) {
                     Objects objects = contestsShort.get(j);
                     if ((!objects.getResource().getName().equals("atcoder.jp")) && (!objects.getResource().getName().equals("codechef.com")) && (!objects.getResource().getName().equals("codeforces.com")) && (!objects.getResource().getName().equals("codingcompetitions.withgoogle.com")) && (!objects.getResource().getName().equals("hackerearth.com")) && (!objects.getResource().getName().equals("hackerrank.com")) && (!objects.getResource().getName().equals("leetcode.com")) && (!objects.getResource().getName().equals("topcoder.com"))) {
                         contestsShort.remove(objects);
                     }
                 }
+
+                if(contestsLong!=null)
                 for (int j = contestsLong.size() - 1; j >= 0; j--) {
                     Objects objects = contestsLong.get(j);
                     if ((!objects.getResource().getName().equals("atcoder.jp")) && (!objects.getResource().getName().equals("codechef.com")) && (!objects.getResource().getName().equals("codeforces.com")) && (!objects.getResource().getName().equals("codingcompetitions.withgoogle.com")) && (!objects.getResource().getName().equals("hackerearth.com")) && (!objects.getResource().getName().equals("hackerrank.com")) && (!objects.getResource().getName().equals("leetcode.com")) && (!objects.getResource().getName().equals("topcoder.com"))) {
                         contestsLong.remove(objects);
                     }
                 }
-                Log.i(TAG, "contestsAll : " + contestsAll.size());
-                Log.i(TAG, "contestsShort : " + contestsShort.size());
-                Log.i(TAG, "contestsLong : " + contestsLong.size());
+                //Log.i(TAG, "contestsAll : " + contestsAll.size());
+                //Log.i(TAG, "contestsShort : " + contestsShort.size());
+                //Log.i(TAG, "contestsLong : " + contestsLong.size());
 
-                Log.i(TAG, "The size of contestsLong after all changes is " + contestsLong.size());
+                //Log.i(TAG, "The size of contestsLong after all changes is " + contestsLong.size());
 
 
                 bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
