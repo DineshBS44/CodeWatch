@@ -35,21 +35,40 @@ import retrofit2.Response;
 public class UpcomingFragment extends Fragment {
 
     private static final String TAG = "UpcomingFragment";
-    private final static String API_KEY = "c456cba4bdd1f92b7c221887d5b37e0a233cbefe";
-    private final static String USER_NAME = "dinesh_b_s";
-    private final static String format = "json";
-    private final static String orderBy = "start";
-    private final static Integer duration = 21600;
-    /*final ArrayList<Objects> contestsAll=new ArrayList<>();
-    final ArrayList<Objects> contestsShort=new ArrayList<>();
-    final ArrayList<Objects> contestsLong=new ArrayList<>();*/
+    private static final String CONTESTS_KEY_ALL = "CONTESTS_ALL";
+    private static final String CONTESTS_KEY_SHORT = "CONTESTS_SHORT";
+    private static final String CONTESTS_KEY_LONG = "CONTESTS_LONG";
+    ArrayList<Objects> contestsAll = new ArrayList<>();
+    ArrayList<Objects> contestsShort = new ArrayList<>();
+    ArrayList<Objects> contestsLong = new ArrayList<>();
     ViewPager2 viewPager;
     TextView allTextView, shortTextView, longTextView;
+
+    public static UpcomingFragment newInstance(ArrayList<Objects> contestsAll, ArrayList<Objects> contestsShort, ArrayList<Objects> contestsLong) {
+        UpcomingFragment fragment = new UpcomingFragment();
+        Bundle args = new Bundle();
+        args.putParcelableArrayList(CONTESTS_KEY_ALL, contestsAll);
+        args.putParcelableArrayList(CONTESTS_KEY_SHORT, contestsShort);
+        args.putParcelableArrayList(CONTESTS_KEY_LONG, contestsLong);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            contestsAll = getArguments().getParcelableArrayList(CONTESTS_KEY_ALL);
+            contestsShort= getArguments().getParcelableArrayList(CONTESTS_KEY_SHORT);
+            contestsLong = getArguments().getParcelableArrayList(CONTESTS_KEY_LONG);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        getActivity().setTitle("Upcoming");
         return inflater.inflate(R.layout.fragment_upcoming, container, false);
     }
 
@@ -108,107 +127,11 @@ public class UpcomingFragment extends Fragment {
 
     }
 
-    private void fetchDataAll() {
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
-
-        Date currentDate = cal.getTime();
-
-        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 7);
-
-        Date dateAfterOneWeek = cal.getTime();
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd,HH:mm:ss", Locale.getDefault());
-        String currentDateTime = sdf.format(currentDate);
-        final String currentDateandTime = currentDateTime.replace(",", "T");
-        String dateTimeAfterOneWeek = sdf.format(dateAfterOneWeek);
-        final String dateAndTimeAfterOneWeek = dateTimeAfterOneWeek.replace(",", "T");
-
-
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<Contest> call = apiService.getUpcomingAllContest(format, orderBy, currentDateandTime, dateAndTimeAfterOneWeek, USER_NAME, API_KEY);
-        call.enqueue(new Callback<Contest>() {
-            @Override
-            public void onResponse(Call<Contest> call, Response<Contest> response) {
-                int statusCode = response.code();
-                ArrayList<Objects> contestsAll = java.util.Objects.requireNonNull(response).body().getObjects();
-                fetchDataShort(contestsAll, currentDateandTime, dateAndTimeAfterOneWeek);
-                //viewPager.setAdapter(new UpcomingAdapter(UpcomingFragment.this,contests,contests,contests));
-                //Log.i(TAG,"The size of contestsAll is "+contestsAll.size());
-            }
-
-            @Override
-            public void onFailure(Call<Contest> call, Throwable t) {
-                // Log error here since request failed
-                Log.e(TAG, t.toString());
-            }
-        });
-
+    private void fetchDataAll()
+    {
+        viewPager.setAdapter(new UpcomingAdapter(UpcomingFragment.this, contestsAll, contestsShort, contestsLong));
     }
 
-    private void fetchDataShort(ArrayList<Objects> contestsAll, String currentDateandTime, String dateAndTimeAfterOneWeek) {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<Contest> call = apiService.getUpcomingShortContest(format, orderBy, currentDateandTime, dateAndTimeAfterOneWeek, duration, USER_NAME, API_KEY);
-        call.enqueue(new Callback<Contest>() {
-            @Override
-            public void onResponse(Call<Contest> call, Response<Contest> response) {
-                int statusCode = response.code();
-                ArrayList<Objects> contestsShort = java.util.Objects.requireNonNull(response).body().getObjects();
-                fetchDataLong(contestsAll, contestsShort, currentDateandTime, dateAndTimeAfterOneWeek);
-                //Log.i(TAG,"The size of contestsShort is "+contestsShort.size());
-            }
 
-            @Override
-            public void onFailure(Call<Contest> call, Throwable t) {
-                // Log error here since request failed
-                Log.e(TAG, t.toString());
-            }
-        });
-    }
-
-    private void fetchDataLong(ArrayList<Objects> contestsAll, ArrayList<Objects> contestsShort, String currentDateandTime, String dateAndTimeAfterOneWeek) {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<Contest> call = apiService.getUpcomingLongContest(format, orderBy, currentDateandTime, dateAndTimeAfterOneWeek, duration, USER_NAME, API_KEY);
-        call.enqueue(new Callback<Contest>() {
-            @Override
-            public void onResponse(Call<Contest> call, Response<Contest> response) {
-                int statusCode = response.code();
-                ArrayList<Objects> contestsLong = java.util.Objects.requireNonNull(response).body().getObjects();
-
-                for (int j = contestsAll.size() - 1; j >= 0; j--) {
-                    Objects objects = contestsAll.get(j);
-                    if ((!objects.getResource().getName().equals("atcoder.jp")) && (!objects.getResource().getName().equals("codechef.com")) && (!objects.getResource().getName().equals("codeforces.com")) && (!objects.getResource().getName().equals("codingcompetitions.withgoogle.com")) && (!objects.getResource().getName().equals("hackerearth.com")) && (!objects.getResource().getName().equals("hackerrank.com")) && (!objects.getResource().getName().equals("leetcode.com")) && (!objects.getResource().getName().equals("topcoder.com"))) {
-                        contestsAll.remove(objects);
-                    }
-                }
-                for (int j = contestsShort.size() - 1; j >= 0; j--) {
-                    Objects objects = contestsShort.get(j);
-                    if ((!objects.getResource().getName().equals("atcoder.jp")) && (!objects.getResource().getName().equals("codechef.com")) && (!objects.getResource().getName().equals("codeforces.com")) && (!objects.getResource().getName().equals("codingcompetitions.withgoogle.com")) && (!objects.getResource().getName().equals("hackerearth.com")) && (!objects.getResource().getName().equals("hackerrank.com")) && (!objects.getResource().getName().equals("leetcode.com")) && (!objects.getResource().getName().equals("topcoder.com"))) {
-                        contestsShort.remove(objects);
-                    }
-                }
-                for (int j = contestsLong.size() - 1; j >= 0; j--) {
-                    Objects objects = contestsLong.get(j);
-                    if ((!objects.getResource().getName().equals("atcoder.jp")) && (!objects.getResource().getName().equals("codechef.com")) && (!objects.getResource().getName().equals("codeforces.com")) && (!objects.getResource().getName().equals("codingcompetitions.withgoogle.com")) && (!objects.getResource().getName().equals("hackerearth.com")) && (!objects.getResource().getName().equals("hackerrank.com")) && (!objects.getResource().getName().equals("leetcode.com")) && (!objects.getResource().getName().equals("topcoder.com"))) {
-                        contestsLong.remove(objects);
-                    }
-                }
-                Log.i(TAG, "contestsAll : " + contestsAll.size());
-                Log.i(TAG, "contestsShort : " + contestsShort.size());
-                Log.i(TAG, "contestsLong : " + contestsLong.size());
-
-                Log.i(TAG, "The size of contestsLong after all changes is " + contestsLong.size());
-
-                viewPager.setAdapter(new UpcomingAdapter(UpcomingFragment.this, contestsAll, contestsShort, contestsLong));
-            }
-
-            @Override
-            public void onFailure(Call<Contest> call, Throwable t) {
-                // Log error here since request failed
-                Log.e(TAG, t.toString());
-            }
-        });
-    }
 
 }

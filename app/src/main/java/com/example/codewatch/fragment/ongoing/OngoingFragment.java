@@ -61,6 +61,7 @@ public class OngoingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        getActivity().setTitle("Ongoing");
         return inflater.inflate(R.layout.fragment_ongoing, container, false);
     }
 }
