@@ -29,7 +29,7 @@ public class UpcomingShortFragment extends Fragment {
     private static final String CONTESTS_SHORT_KEY = "CONTESTS_SHORT";
     ArrayList<Objects> contestsShort = new ArrayList<>();
     RecyclerView upcomingShortRecyclerView;
-    TextView emptyUpcomingShort;
+    TextView emptyUpcomingShort, emptyNetworkIssueUpcomingShort;
 
     public UpcomingShortFragment() {
         // Required empty public constructor
@@ -63,6 +63,7 @@ public class UpcomingShortFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         upcomingShortRecyclerView = view.findViewById(R.id.upcoming_short_rv);
         emptyUpcomingShort=view.findViewById(R.id.empty_upcoming_short_tv);
+        emptyNetworkIssueUpcomingShort=view.findViewById(R.id.empty_network_issue_upcoming_short_tv);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         upcomingShortRecyclerView.setLayoutManager(linearLayoutManager);
@@ -71,9 +72,11 @@ public class UpcomingShortFragment extends Fragment {
         if(contestsShort==null || contestsShort.size()==0)
         {
             emptyUpcomingShort.setVisibility(View.VISIBLE);
+            emptyNetworkIssueUpcomingShort.setVisibility(View.VISIBLE);
         }
-        else
+        else {
             upcomingShortRecyclerView.setAdapter(new UpcomingShortAdapter(contestsShort));
+        }
 
         ItemClickSupport.addTo(upcomingShortRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override

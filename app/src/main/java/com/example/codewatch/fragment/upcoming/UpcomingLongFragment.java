@@ -29,7 +29,7 @@ public class UpcomingLongFragment extends Fragment {
     private static final String CONTESTS_LONG_KEY = "CONTESTS_LONG";
     ArrayList<Objects> contestsLong = new ArrayList<>();
     RecyclerView upcomingLongRecyclerView;
-    TextView emptyUpcomingLong;
+    TextView emptyUpcomingLong, emptyNetworkIssueUpcomingLong;
 
     public UpcomingLongFragment() {
         // Required empty public constructor
@@ -63,6 +63,7 @@ public class UpcomingLongFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         upcomingLongRecyclerView = view.findViewById(R.id.upcoming_long_rv);
         emptyUpcomingLong=view.findViewById(R.id.empty_upcoming_long_tv);
+        emptyNetworkIssueUpcomingLong=view.findViewById(R.id.empty_network_issue_upcoming_long_tv);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         upcomingLongRecyclerView.setLayoutManager(linearLayoutManager);
@@ -71,6 +72,7 @@ public class UpcomingLongFragment extends Fragment {
         if(contestsLong==null || contestsLong.size()==0)
         {
             emptyUpcomingLong.setVisibility(View.VISIBLE);
+            emptyNetworkIssueUpcomingLong.setVisibility(View.VISIBLE);
         }
         else
             upcomingLongRecyclerView.setAdapter(new UpcomingLongAdapter(contestsLong));

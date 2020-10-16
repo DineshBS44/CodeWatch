@@ -30,7 +30,7 @@ public class UpcomingAllFragment extends Fragment {
     private static final String CONTESTS_ALL_KEY = "CONTESTS_ALL";
     ArrayList<Objects> contestsAll=new ArrayList<>();
     RecyclerView upcomingAllRecyclerView;
-    TextView emptyUpcomingAll;
+    TextView emptyUpcomingAll, emptyNetworkIssueUpcomingAll;
 
     public UpcomingAllFragment() {
         // Required empty public constructor
@@ -65,6 +65,7 @@ public class UpcomingAllFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         upcomingAllRecyclerView = view.findViewById(R.id.upcoming_all_rv);
         emptyUpcomingAll=view.findViewById(R.id.empty_upcoming_all_tv);
+        emptyNetworkIssueUpcomingAll=view.findViewById(R.id.empty_network_issue_upcoming_all_tv);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         upcomingAllRecyclerView.setLayoutManager(linearLayoutManager);
@@ -73,8 +74,10 @@ public class UpcomingAllFragment extends Fragment {
         {
             upcomingAllRecyclerView.setAdapter(new UpcomingAllAdapter(contestsAll));
         }
-        else
+        else {
             emptyUpcomingAll.setVisibility(View.VISIBLE);
+            emptyNetworkIssueUpcomingAll.setVisibility(View.VISIBLE);
+        }
 
         ItemClickSupport.addTo(upcomingAllRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
