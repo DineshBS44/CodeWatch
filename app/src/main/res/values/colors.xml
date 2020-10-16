@@ -5,4 +5,6 @@
     <color name="colorAccent">#FFC68A</color>
     <color name="colorPrimaryMedium">#1E1E1E</color>
     <color name="color_disabled">#80FFFFFF</color>
+    <color name="colorOrange">#FFC68A</color>
+    <color name="colorOrangeNew">#FFB74D</color>
 </resources>
