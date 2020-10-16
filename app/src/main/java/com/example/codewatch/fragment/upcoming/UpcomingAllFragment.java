@@ -77,6 +77,7 @@ public class UpcomingAllFragment extends Fragment {
         else {
             emptyUpcomingAll.setVisibility(View.VISIBLE);
             emptyNetworkIssueUpcomingAll.setVisibility(View.VISIBLE);
+            //Log.i("UpcomingAllFragment","The visibility is set for the emtpy placeholder text views ");
         }
 
         ItemClickSupport.addTo(upcomingAllRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {

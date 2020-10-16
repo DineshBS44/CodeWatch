@@ -35,7 +35,7 @@ public class OverlayFrame extends CoordinatorLayout {
         overlay = isVisible;
 
         progressBar = ((Activity) getContext()).findViewById(R.id.progress_bar_overlay);
-        overlayDrawable = new ColorDrawable(ContextCompat.getColor(getContext(), R.color.loadingOverlay));
+        overlayDrawable = new ColorDrawable(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
         plainDrawable = new ColorDrawable(ContextCompat.getColor(getContext(), android.R.color.transparent));
 
         if (isVisible) {
