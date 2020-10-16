@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,7 +25,7 @@ import java.util.TimeZone;
 
 public class ContestDetail extends AppCompatActivity {
 
-    TextView platformName, contestName, contestTime, contestDate, contestNotified;
+    TextView platformName, contestName, contestTime, contestDate, contestNotified, contestLink;
     ImageView platformImage;
 
     @Override
@@ -37,6 +39,7 @@ public class ContestDetail extends AppCompatActivity {
         contestName = findViewById(R.id.contest_detail_contest_name);
         contestDate = findViewById(R.id.contest_detail_date);
         contestNotified = findViewById(R.id.contest_detail_notified_tv);
+        contestLink=findViewById(R.id.contest_detail_link);
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -86,6 +89,10 @@ public class ContestDetail extends AppCompatActivity {
             contestName.setText(contests.getEvent());
             setDateAndTime(contests);
         }
+
+        contestLink.setText(Html.fromHtml("<a href=\""+ contests.getHref() + "\">" + "Click here" + "</a>"));
+        contestLink.setClickable(true);
+        contestLink.setMovementMethod (LinkMovementMethod.getInstance());
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
