@@ -11,9 +11,13 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.codewatch.R;
 import com.example.codewatch.adapter.upcoming.UpcomingAdapter;
@@ -24,6 +28,7 @@ import com.example.codewatch.model.Contest;
 import com.example.codewatch.model.Objects;
 import com.example.codewatch.rest.ApiClient;
 import com.example.codewatch.rest.ApiInterface;
+import com.example.codewatch.utils.OverlayFrame;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
@@ -44,14 +49,19 @@ public class MainActivity extends AppCompatActivity {
     private final static String format = "json";
     private final static String orderBy = "start";
     private final static Integer duration = 21600;
+    OverlayFrame overlayFrame;
     NavController navController;
     BottomNavigationView bottomNavigationView;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        progressBar=findViewById(R.id.progress_bar_overlay);
+        overlayFrame=findViewById(R.id.overlay_frame);
+        overlayFrame.displayOverlay(true);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_container);
         navController = navHostFragment.getNavController();
@@ -59,6 +69,18 @@ public class MainActivity extends AppCompatActivity {
 
         fetchDataAllUpcoming();
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        android.os.Process.killProcess(android.os.Process.myPid());
+        // This above line close correctly
+    }
+
+    /*public void onResume() {
+        super.onResume();
+        startActivity(new Intent(this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    }*/
 
     private void fetchDataAllUpcoming() {
 
@@ -93,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<Contest> call, Throwable t) {
                 // Log error here since request failed
                 Log.e(TAG, t.toString());
+                Toast.makeText(getApplicationContext(),"Check your internet connection or try again later",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -113,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Contest> call, Throwable t) {
                 // Log error here since request failed
+                Toast.makeText(getApplicationContext(),"Check your internet connection or try again later",Toast.LENGTH_SHORT).show();
                 Log.e(TAG, t.toString());
             }
         });
@@ -150,6 +174,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(TAG, "contestsLong : " + contestsLong.size());
 
                 Log.i(TAG, "The size of contestsLong after all changes is " + contestsLong.size());
+
+
 
                 bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -201,11 +227,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+                overlayFrame.displayOverlay(false);
+
             }
 
             @Override
             public void onFailure(Call<Contest> call, Throwable t) {
                 // Log error here since request failed
+                Toast.makeText(getApplicationContext(),"Check your internet connection or try again later",Toast.LENGTH_SHORT).show();
                 Log.e(TAG, t.toString());
             }
         });
