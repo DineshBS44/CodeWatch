@@ -39,10 +39,10 @@ public class OverlayFrame extends CoordinatorLayout {
         plainDrawable = new ColorDrawable(ContextCompat.getColor(getContext(), android.R.color.transparent));
 
         if (isVisible) {
-                setForeground(overlayDrawable);
+            setForeground(overlayDrawable);
             progressBar.setVisibility(VISIBLE);
         } else {
-                setForeground(plainDrawable);
+            setForeground(plainDrawable);
             progressBar.setVisibility(INVISIBLE);
         }
     }

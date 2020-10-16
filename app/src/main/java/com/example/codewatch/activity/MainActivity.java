@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        progressBar=findViewById(R.id.progress_bar_overlay);
-        overlayFrame=findViewById(R.id.overlay_frame);
+        progressBar = findViewById(R.id.progress_bar_overlay);
+        overlayFrame = findViewById(R.id.overlay_frame);
         overlayFrame.displayOverlay(true);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_container);
@@ -76,11 +76,6 @@ public class MainActivity extends AppCompatActivity {
         android.os.Process.killProcess(android.os.Process.myPid());
         // This above line close correctly
     }
-
-    /*public void onResume() {
-        super.onResume();
-        startActivity(new Intent(this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-    }*/
 
     private void fetchDataAllUpcoming() {
 
@@ -115,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<Contest> call, Throwable t) {
                 // Log error here since request failed
                 Log.e(TAG, t.toString());
-                Toast.makeText(getApplicationContext(),"Check your internet connection or try again later",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Check your internet connection or try again later", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -136,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Contest> call, Throwable t) {
                 // Log error here since request failed
-                Toast.makeText(getApplicationContext(),"Check your internet connection or try again later",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Check your internet connection or try again later", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, t.toString());
             }
         });
@@ -176,14 +171,13 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(TAG, "The size of contestsLong after all changes is " + contestsLong.size());
 
 
-
                 bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.nav_upcoming:
                                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                                UpcomingFragment upcomingFragment = UpcomingFragment.newInstance(contestsAll,contestsShort,contestsLong);
+                                UpcomingFragment upcomingFragment = UpcomingFragment.newInstance(contestsAll, contestsShort, contestsLong);
                                 ft.replace(R.id.nav_host_fragment_container, upcomingFragment);
                                 ft.commit();
                                 break;
@@ -203,24 +197,19 @@ public class MainActivity extends AppCompatActivity {
                 navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
                     @Override
                     public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                        if(destination.getId()==R.id.nav_upcoming)
-                        {
+                        if (destination.getId() == R.id.nav_upcoming) {
                             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                            UpcomingFragment upcomingFragment = UpcomingFragment.newInstance(contestsAll,contestsShort,contestsLong);
+                            UpcomingFragment upcomingFragment = UpcomingFragment.newInstance(contestsAll, contestsShort, contestsLong);
                             ft.replace(R.id.nav_host_fragment_container, upcomingFragment);
                             ft.commit();
-                        }
-                        else if(destination.getId()==R.id.nav_ongoing)
-                        {
+                        } else if (destination.getId() == R.id.nav_ongoing) {
                             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                            OngoingFragment ongoingFragment=new OngoingFragment();
+                            OngoingFragment ongoingFragment = new OngoingFragment();
                             ft.replace(R.id.nav_host_fragment_container, ongoingFragment);
                             ft.commit();
-                        }
-                        else
-                        {
+                        } else {
                             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                            AboutFragment aboutFragment=new AboutFragment();
+                            AboutFragment aboutFragment = new AboutFragment();
                             ft.replace(R.id.nav_host_fragment_container, aboutFragment);
                             ft.commit();
                         }
@@ -234,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Contest> call, Throwable t) {
                 // Log error here since request failed
-                Toast.makeText(getApplicationContext(),"Check your internet connection or try again later",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Check your internet connection or try again later", Toast.LENGTH_SHORT).show();
                 Log.e(TAG, t.toString());
             }
         });

@@ -60,7 +60,7 @@ public class UpcomingFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             contestsAll = getArguments().getParcelableArrayList(CONTESTS_KEY_ALL);
-            contestsShort= getArguments().getParcelableArrayList(CONTESTS_KEY_SHORT);
+            contestsShort = getArguments().getParcelableArrayList(CONTESTS_KEY_SHORT);
             contestsLong = getArguments().getParcelableArrayList(CONTESTS_KEY_LONG);
         }
     }
@@ -128,11 +128,9 @@ public class UpcomingFragment extends Fragment {
 
     }
 
-    private void fetchDataAll()
-    {
+    private void fetchDataAll() {
         viewPager.setAdapter(new UpcomingAdapter(UpcomingFragment.this, contestsAll, contestsShort, contestsLong));
     }
-
 
 
 }
