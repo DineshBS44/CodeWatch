@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -91,11 +92,14 @@ public class MainActivity extends AppCompatActivity {
         Date dateAfterOneWeek = cal.getTime();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd,HH:mm:ss", Locale.getDefault());
+        sdf.setTimeZone(TimeZone.getTimeZone("utc"));
         String currentDateTime = sdf.format(currentDate);
         final String currentDateandTime = currentDateTime.replace(",", "T");
         String dateTimeAfterOneWeek = sdf.format(dateAfterOneWeek);
         final String dateAndTimeAfterOneWeek = dateTimeAfterOneWeek.replace(",", "T");
 
+        Log.i("MainActivity","current date and time is : "+currentDateandTime);
+        Log.i("MainActivity","next week date and time is : "+dateAndTimeAfterOneWeek);
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<Contest> call = apiService.getUpcomingAllContest(format, orderBy, currentDateandTime, dateAndTimeAfterOneWeek, USER_NAME, API_KEY);
