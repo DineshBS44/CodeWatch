@@ -16,12 +16,25 @@
         android:elevation="2dp"
         android:indeterminateDrawable="@drawable/progress_circle"
         android:progressTint="@color/colorAccent"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/overlay_frame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
+        tools:visibility="invisible" />
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@drawable/ic_codechef"
+        android:id="@+id/overlay_frame_image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/overlay_frame"
+        />
+
 
     <com.example.codewatch.utils.OverlayFrame
         android:id="@+id/overlay_frame"

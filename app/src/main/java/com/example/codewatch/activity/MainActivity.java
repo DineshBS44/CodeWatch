@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     NavController navController;
     BottomNavigationView bottomNavigationView;
     ProgressBar progressBar;
+    ImageView overlayImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         progressBar = findViewById(R.id.progress_bar_overlay);
+        overlayImage=findViewById(R.id.overlay_frame_image);
         overlayFrame = findViewById(R.id.overlay_frame);
         overlayFrame.displayOverlay(true);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
