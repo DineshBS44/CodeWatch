@@ -120,14 +120,9 @@ public class MainActivity extends AppCompatActivity {
                     contestsShort = null;
                     contestsLong = null;
                 }
-                //fetchDataShortUpcoming(contestsAll, currentDateandTime, dateAndTimeAfterOneWeek);
-                //Log.i(TAG,"The size of contestsAll is "+contestsAll.size());
-
-                // New code
 
                 sendDataUpcoming(contestsAll, contestsShort, contestsLong, currentDateandTime, dateAndTimeAfterOneWeek);
-
-                // New code
+                //Log.i(TAG,"The size of contestsAll is "+contestsAll.size());
 
             }
 
@@ -140,137 +135,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
-    //Bad code below
-
-    /*private void fetchDataShortUpcoming(ArrayList<Objects> contestsAll, String currentDateandTime, String dateAndTimeAfterOneWeek) {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<Contest> call = apiService.getUpcomingShortContest(format, orderBy, currentDateandTime, dateAndTimeAfterOneWeek, duration, USER_NAME, API_KEY);
-        call.enqueue(new Callback<Contest>() {
-            @Override
-            public void onResponse(Call<Contest> call, Response<Contest> response) {
-                ArrayList<Objects> contestsShort;
-                if(response.body()!=null) {
-                    int statusCode = response.code();
-                    contestsShort = response.body().getObjects();
-                }
-                else
-                    contestsShort=null;
-                fetchDataLongUpcoming(contestsAll, contestsShort, currentDateandTime, dateAndTimeAfterOneWeek);
-                //Log.i(TAG,"The size of contestsShort is "+contestsShort.size());
-            }
-
-            @Override
-            public void onFailure(Call<Contest> call, Throwable t) {
-                // Log error here since request failed
-                Toast.makeText(getApplicationContext(), "Check your internet connection or try again later", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, t.toString());
-            }
-        });
-    }
-
-    private void fetchDataLongUpcoming(ArrayList<Objects> contestsAll, ArrayList<Objects> contestsShort, String currentDateandTime, String dateAndTimeAfterOneWeek) {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<Contest> call = apiService.getUpcomingLongContest(format, orderBy, currentDateandTime, dateAndTimeAfterOneWeek, duration, USER_NAME, API_KEY);
-        call.enqueue(new Callback<Contest>() {
-            @Override
-            public void onResponse(Call<Contest> call, Response<Contest> response) {
-                ArrayList<Objects> contestsLong;
-                if(response.body()!=null) {
-                    int statusCode = response.code();
-                    contestsLong = response.body().getObjects();
-                }
-                else
-                    contestsLong=null;
-                if(contestsAll!=null)
-                for (int j = contestsAll.size() - 1; j >= 0; j--) {
-                    Objects objects = contestsAll.get(j);
-                    if ((!objects.getResource().getName().equals("atcoder.jp")) && (!objects.getResource().getName().equals("codechef.com")) && (!objects.getResource().getName().equals("codeforces.com")) && (!objects.getResource().getName().equals("codingcompetitions.withgoogle.com")) && (!objects.getResource().getName().equals("hackerearth.com")) && (!objects.getResource().getName().equals("hackerrank.com")) && (!objects.getResource().getName().equals("leetcode.com")) && (!objects.getResource().getName().equals("topcoder.com"))) {
-                        contestsAll.remove(objects);
-                    }
-                }
-
-                if(contestsShort!=null)
-                for (int j = contestsShort.size() - 1; j >= 0; j--) {
-                    Objects objects = contestsShort.get(j);
-                    if ((!objects.getResource().getName().equals("atcoder.jp")) && (!objects.getResource().getName().equals("codechef.com")) && (!objects.getResource().getName().equals("codeforces.com")) && (!objects.getResource().getName().equals("codingcompetitions.withgoogle.com")) && (!objects.getResource().getName().equals("hackerearth.com")) && (!objects.getResource().getName().equals("hackerrank.com")) && (!objects.getResource().getName().equals("leetcode.com")) && (!objects.getResource().getName().equals("topcoder.com"))) {
-                        contestsShort.remove(objects);
-                    }
-                }
-
-                if(contestsLong!=null)
-                for (int j = contestsLong.size() - 1; j >= 0; j--) {
-                    Objects objects = contestsLong.get(j);
-                    if ((!objects.getResource().getName().equals("atcoder.jp")) && (!objects.getResource().getName().equals("codechef.com")) && (!objects.getResource().getName().equals("codeforces.com")) && (!objects.getResource().getName().equals("codingcompetitions.withgoogle.com")) && (!objects.getResource().getName().equals("hackerearth.com")) && (!objects.getResource().getName().equals("hackerrank.com")) && (!objects.getResource().getName().equals("leetcode.com")) && (!objects.getResource().getName().equals("topcoder.com"))) {
-                        contestsLong.remove(objects);
-                    }
-                }
-                //Log.i(TAG, "contestsAll : " + contestsAll.size());
-                //Log.i(TAG, "contestsShort : " + contestsShort.size());
-                //Log.i(TAG, "contestsLong : " + contestsLong.size());
-
-                //Log.i(TAG, "The size of contestsLong after all changes is " + contestsLong.size());
-
-
-                bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.nav_upcoming:
-                                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                                UpcomingFragment upcomingFragment = UpcomingFragment.newInstance(contestsAll, contestsShort, contestsLong);
-                                ft.replace(R.id.nav_host_fragment_container, upcomingFragment);
-                                ft.commit();
-                                break;
-                            case R.id.nav_ongoing:
-                                FragmentManager manager = getSupportFragmentManager();
-                                manager.beginTransaction().replace(R.id.nav_host_fragment_container, new OngoingFragment()).commit();
-                                break;
-                            case R.id.nav_about:
-                                FragmentManager manager2 = getSupportFragmentManager();
-                                manager2.beginTransaction().replace(R.id.nav_host_fragment_container, new AboutFragment()).commit();
-                                break;
-                        }
-                        return true;
-                    }
-                });
-
-                navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
-                    @Override
-                    public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                        if (destination.getId() == R.id.nav_upcoming) {
-                            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                            UpcomingFragment upcomingFragment = UpcomingFragment.newInstance(contestsAll, contestsShort, contestsLong);
-                            ft.replace(R.id.nav_host_fragment_container, upcomingFragment);
-                            ft.commit();
-                        } else if (destination.getId() == R.id.nav_ongoing) {
-                            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                            OngoingFragment ongoingFragment = new OngoingFragment();
-                            ft.replace(R.id.nav_host_fragment_container, ongoingFragment);
-                            ft.commit();
-                        } else {
-                            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                            AboutFragment aboutFragment = new AboutFragment();
-                            ft.replace(R.id.nav_host_fragment_container, aboutFragment);
-                            ft.commit();
-                        }
-                    }
-                });
-
-                overlayFrame.displayOverlay(false);
-
-            }
-
-            @Override
-            public void onFailure(Call<Contest> call, Throwable t) {
-                // Log error here since request failed
-                Toast.makeText(getApplicationContext(), "Check your internet connection or try again later", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, t.toString());
-            }
-        });
-    }*/
-
-    //Bad code above
 
     void sendDataUpcoming(ArrayList<Objects> contestsAll, ArrayList<Objects> contestsShort, ArrayList<Objects> contestsLong, String currentDateandTime, String dateAndTimeAfterOneWeek) {
         if (contestsAll != null)
