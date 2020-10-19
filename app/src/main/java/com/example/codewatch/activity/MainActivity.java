@@ -80,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         finish();
         android.os.Process.killProcess(android.os.Process.myPid());
-        // This above line close correctly
     }
 
     private void fetchDataUpcoming() {
@@ -101,8 +100,8 @@ public class MainActivity extends AppCompatActivity {
         String dateTimeAfterOneWeek = sdf.format(dateAfterOneWeek);
         final String dateAndTimeAfterOneWeek = dateTimeAfterOneWeek.replace(",", "T");
 
-        Log.i("MainActivity", "current date and time is : " + currentDateandTime);
-        Log.i("MainActivity", "next week date and time is : " + dateAndTimeAfterOneWeek);
+        //Log.i("MainActivity", "current date and time is : " + currentDateandTime);
+        //Log.i("MainActivity", "next week date and time is : " + dateAndTimeAfterOneWeek);
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<Contest> call = apiService.getUpcomingAllContest(format, orderBy, currentDateandTime, dateAndTimeAfterOneWeek, USER_NAME, API_KEY);
@@ -148,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
         if (contestsAll != null)
             for (int j = 0; j < contestsAll.size(); j++) {
                 Objects objects = contestsAll.get(j);
-                if (objects.getDuration() <= 21600) {
+                if (objects.getDuration() <= duration) {
                     contestsShort.add(objects);
                 } else
                     contestsLong.add(objects);
