@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         progressBar = findViewById(R.id.progress_bar_overlay);
-        overlayImage=findViewById(R.id.overlay_frame_image);
+        overlayImage = findViewById(R.id.overlay_frame_image);
         overlayFrame = findViewById(R.id.overlay_frame);
         overlayFrame.displayOverlay(true);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         }
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-        fetchDataAllUpcoming();
+        fetchDataUpcoming();
     }
 
     @Override
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         // This above line close correctly
     }
 
-    private void fetchDataAllUpcoming() {
+    private void fetchDataUpcoming() {
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
@@ -101,23 +101,34 @@ public class MainActivity extends AppCompatActivity {
         String dateTimeAfterOneWeek = sdf.format(dateAfterOneWeek);
         final String dateAndTimeAfterOneWeek = dateTimeAfterOneWeek.replace(",", "T");
 
-        Log.i("MainActivity","current date and time is : "+currentDateandTime);
-        Log.i("MainActivity","next week date and time is : "+dateAndTimeAfterOneWeek);
+        Log.i("MainActivity", "current date and time is : " + currentDateandTime);
+        Log.i("MainActivity", "next week date and time is : " + dateAndTimeAfterOneWeek);
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<Contest> call = apiService.getUpcomingAllContest(format, orderBy, currentDateandTime, dateAndTimeAfterOneWeek, USER_NAME, API_KEY);
         call.enqueue(new Callback<Contest>() {
             @Override
             public void onResponse(Call<Contest> call, Response<Contest> response) {
-                ArrayList<Objects> contestsAll;
-                if(response.body()!=null) {
+                ArrayList<Objects> contestsAll = new ArrayList<>();
+                ArrayList<Objects> contestsShort = new ArrayList<>();
+                ArrayList<Objects> contestsLong = new ArrayList<>();
+                if (response.body() != null) {
                     int statusCode = response.code();
                     contestsAll = response.body().getObjects();
+                } else {
+                    contestsAll = null;
+                    contestsShort = null;
+                    contestsLong = null;
                 }
-                else
-                    contestsAll=null;
-                fetchDataShortUpcoming(contestsAll, currentDateandTime, dateAndTimeAfterOneWeek);
+                //fetchDataShortUpcoming(contestsAll, currentDateandTime, dateAndTimeAfterOneWeek);
                 //Log.i(TAG,"The size of contestsAll is "+contestsAll.size());
+
+                // New code
+
+                sendDataUpcoming(contestsAll, contestsShort, contestsLong, currentDateandTime, dateAndTimeAfterOneWeek);
+
+                // New code
+
             }
 
             @Override
@@ -130,7 +141,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void fetchDataShortUpcoming(ArrayList<Objects> contestsAll, String currentDateandTime, String dateAndTimeAfterOneWeek) {
+    //Bad code below
+
+    /*private void fetchDataShortUpcoming(ArrayList<Objects> contestsAll, String currentDateandTime, String dateAndTimeAfterOneWeek) {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<Contest> call = apiService.getUpcomingShortContest(format, orderBy, currentDateandTime, dateAndTimeAfterOneWeek, duration, USER_NAME, API_KEY);
         call.enqueue(new Callback<Contest>() {
@@ -255,5 +268,74 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, t.toString());
             }
         });
+    }*/
+
+    //Bad code above
+
+    void sendDataUpcoming(ArrayList<Objects> contestsAll, ArrayList<Objects> contestsShort, ArrayList<Objects> contestsLong, String currentDateandTime, String dateAndTimeAfterOneWeek) {
+        if (contestsAll != null)
+            for (int j = contestsAll.size() - 1; j >= 0; j--) {
+                Objects objects = contestsAll.get(j);
+                if ((!objects.getResource().getName().equals("atcoder.jp")) && (!objects.getResource().getName().equals("codechef.com")) && (!objects.getResource().getName().equals("codeforces.com")) && (!objects.getResource().getName().equals("codingcompetitions.withgoogle.com")) && (!objects.getResource().getName().equals("hackerearth.com")) && (!objects.getResource().getName().equals("hackerrank.com")) && (!objects.getResource().getName().equals("leetcode.com")) && (!objects.getResource().getName().equals("topcoder.com"))) {
+                    contestsAll.remove(objects);
+                }
+            }
+
+        if (contestsAll != null)
+            for (int j = 0; j < contestsAll.size(); j++) {
+                Objects objects = contestsAll.get(j);
+                if (objects.getDuration() <= 21600) {
+                    contestsShort.add(objects);
+                } else
+                    contestsLong.add(objects);
+            }
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.nav_upcoming:
+                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                        UpcomingFragment upcomingFragment = UpcomingFragment.newInstance(contestsAll, contestsShort, contestsLong);
+                        ft.replace(R.id.nav_host_fragment_container, upcomingFragment);
+                        ft.commit();
+                        break;
+                    case R.id.nav_ongoing:
+                        FragmentManager manager = getSupportFragmentManager();
+                        manager.beginTransaction().replace(R.id.nav_host_fragment_container, new OngoingFragment()).commit();
+                        break;
+                    case R.id.nav_about:
+                        FragmentManager manager2 = getSupportFragmentManager();
+                        manager2.beginTransaction().replace(R.id.nav_host_fragment_container, new AboutFragment()).commit();
+                        break;
+                }
+                return true;
+            }
+        });
+
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+                if (destination.getId() == R.id.nav_upcoming) {
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    UpcomingFragment upcomingFragment = UpcomingFragment.newInstance(contestsAll, contestsShort, contestsLong);
+                    ft.replace(R.id.nav_host_fragment_container, upcomingFragment);
+                    ft.commit();
+                } else if (destination.getId() == R.id.nav_ongoing) {
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    OngoingFragment ongoingFragment = new OngoingFragment();
+                    ft.replace(R.id.nav_host_fragment_container, ongoingFragment);
+                    ft.commit();
+                } else {
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    AboutFragment aboutFragment = new AboutFragment();
+                    ft.replace(R.id.nav_host_fragment_container, aboutFragment);
+                    ft.commit();
+                }
+            }
+        });
+
+        overlayFrame.displayOverlay(false);
     }
+
 }
