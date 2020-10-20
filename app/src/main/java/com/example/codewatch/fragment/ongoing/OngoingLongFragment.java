@@ -1,49 +1,41 @@
 package com.example.codewatch.fragment.ongoing;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codewatch.R;
+import com.example.codewatch.activity.ContestDetail;
+import com.example.codewatch.adapter.ItemClickSupport;
+import com.example.codewatch.adapter.ongoing.OngoingLongAdapter;
+import com.example.codewatch.model.Objects;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link OngoingLongFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+
 public class OngoingLongFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private static final String CONTESTS_LONG_KEY = "CONTESTS_LONG";
+    ArrayList<Objects> contestsLong = new ArrayList<>();
+    RecyclerView ongoingLongRecyclerView;
+    TextView emptyOngoingLong, emptyNetworkIssueOngoingLong;
 
     public OngoingLongFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment OngoingLongFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static OngoingLongFragment newInstance(String param1, String param2) {
+    public static OngoingLongFragment newInstance(ArrayList<Objects> contestsLong) {
         OngoingLongFragment fragment = new OngoingLongFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putParcelableArrayList(CONTESTS_LONG_KEY, contestsLong);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,8 +44,7 @@ public class OngoingLongFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            contestsLong = getArguments().getParcelableArrayList(CONTESTS_LONG_KEY);
         }
     }
 
@@ -62,5 +53,41 @@ public class OngoingLongFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_ongoing_long, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ongoingLongRecyclerView = view.findViewById(R.id.ongoing_long_rv);
+        emptyOngoingLong=view.findViewById(R.id.empty_ongoing_long_tv);
+        emptyNetworkIssueOngoingLong=view.findViewById(R.id.empty_network_issue_ongoing_long_tv);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        ongoingLongRecyclerView.setLayoutManager(linearLayoutManager);
+
+        if(contestsLong==null || contestsLong.size()==0)
+        {
+            emptyOngoingLong.setVisibility(View.VISIBLE);
+            emptyNetworkIssueOngoingLong.setVisibility(View.VISIBLE);
+        }
+        else
+            ongoingLongRecyclerView.setAdapter(new OngoingLongAdapter(contestsLong));
+
+        ItemClickSupport.addTo(ongoingLongRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                showSelectedContestDetail(contestsLong.get(position));
+            }
+        });
+
+    }
+
+    private void showSelectedContestDetail(Objects contestsLong) {
+        Intent intentContestDetail = new Intent(getActivity(), ContestDetail.class);
+        Bundle extras = new Bundle();
+        extras.putParcelable("EXTRA_CONTEST", contestsLong);
+        extras.putParcelable("EXTRA_CONTEST_2", contestsLong.getResource());
+        intentContestDetail.putExtras(extras);
+        startActivity(intentContestDetail);
     }
 }
