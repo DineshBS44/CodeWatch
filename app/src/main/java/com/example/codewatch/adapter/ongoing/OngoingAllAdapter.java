@@ -1,5 +1,6 @@
 package com.example.codewatch.adapter.ongoing;
 
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,8 @@ public class OngoingAllAdapter extends RecyclerView.Adapter<OngoingAllAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (contests.get(position).getResource().getName().equals("atcoder.com")) {
+
+        if (contests.get(position).getResource().getName().equals("atcoder.jp")) {
             holder.platformImage.setImageResource(R.drawable.ic_atcoder);
             holder.platform.setText("ATCODER");
             holder.contestName.setText(contests.get(position).getEvent());
@@ -81,6 +83,7 @@ public class OngoingAllAdapter extends RecyclerView.Adapter<OngoingAllAdapter.Vi
         } else {
             holder.rootView.setLayoutParams(holder.params);
         }
+
     }
 
     @Override
@@ -111,9 +114,10 @@ public class OngoingAllAdapter extends RecyclerView.Adapter<OngoingAllAdapter.Vi
     public void setDateAndTime(@NonNull ViewHolder holder, int position) {
         String startDateTime = contests.get(position).getStart();
         String endDateTime = contests.get(position).getEnd();
-
-        SimpleDateFormat dfStart = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss", Locale.ENGLISH);
-        SimpleDateFormat dfStart2 = new SimpleDateFormat("dd/MM/yyyyTHH:mm", Locale.ENGLISH);
+        startDateTime = startDateTime.replace("T", ",");
+        endDateTime = endDateTime.replace("T", ",");
+        SimpleDateFormat dfStart = new SimpleDateFormat("yyyy-MM-dd,HH:mm:ss", Locale.ENGLISH);
+        SimpleDateFormat dfStart2 = new SimpleDateFormat("dd/MM/yy,HH:mm", Locale.ENGLISH);
         dfStart.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date dateStart = null;
         try {
@@ -122,11 +126,14 @@ public class OngoingAllAdapter extends RecyclerView.Adapter<OngoingAllAdapter.Vi
             e.printStackTrace();
         }
         dfStart2.setTimeZone(TimeZone.getDefault());
-        String formattedStartDateTime = dfStart2.format(dateStart);
+        String formattedStartDateTime = null;
+        if (dateStart != null) {
+            formattedStartDateTime = dfStart2.format(dateStart);
+        }
 
 
-        SimpleDateFormat dfEnd = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss", Locale.ENGLISH);
-        SimpleDateFormat dfEnd2 = new SimpleDateFormat("dd/MM/yyyyTHH:mm", Locale.ENGLISH);
+        SimpleDateFormat dfEnd = new SimpleDateFormat("yyyy-MM-dd,HH:mm:ss", Locale.ENGLISH);
+        SimpleDateFormat dfEnd2 = new SimpleDateFormat("dd/MM/yy,HH:mm", Locale.ENGLISH);
         dfEnd.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date dateEnd = null;
         try {
@@ -137,10 +144,10 @@ public class OngoingAllAdapter extends RecyclerView.Adapter<OngoingAllAdapter.Vi
         dfEnd2.setTimeZone(TimeZone.getDefault());
         String formattedEndDateTime = dfEnd2.format(dateEnd);
 
-        String[] start = formattedStartDateTime.split("T");
+        String[] start = formattedStartDateTime.split(",");
         String startDate = start[0];
         String startTime = start[1];
-        String[] end = formattedEndDateTime.split("T");
+        String[] end = formattedEndDateTime.split(",");
         String endDate = end[0];
         String endTime = end[1];
 
