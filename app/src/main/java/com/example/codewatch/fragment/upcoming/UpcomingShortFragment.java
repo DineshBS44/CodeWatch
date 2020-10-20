@@ -90,6 +90,7 @@ public class UpcomingShortFragment extends Fragment {
         Bundle extras = new Bundle();
         extras.putParcelable("EXTRA_CONTEST", contestsShort);
         extras.putParcelable("EXTRA_CONTEST_2", contestsShort.getResource());
+        extras.putInt("EXTRA_INT",1);
         intentContestDetail.putExtras(extras);
         startActivity(intentContestDetail);
     }

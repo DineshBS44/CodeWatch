@@ -93,6 +93,7 @@ public class OngoingAllFragment extends Fragment {
         Bundle extras = new Bundle();
         extras.putParcelable("EXTRA_CONTEST", contestsAll);
         extras.putParcelable("EXTRA_CONTEST_2", contestsAll.getResource());
+        extras.putInt("EXTRA_INT",2);
         intentContestDetail.putExtras(extras);
         startActivity(intentContestDetail);
     }

@@ -95,6 +95,7 @@ public class UpcomingAllFragment extends Fragment {
         Bundle extras = new Bundle();
         extras.putParcelable("EXTRA_CONTEST", contestsAll);
         extras.putParcelable("EXTRA_CONTEST_2", contestsAll.getResource());
+        extras.putInt("EXTRA_INT",1);
         intentContestDetail.putExtras(extras);
         startActivity(intentContestDetail);
     }
