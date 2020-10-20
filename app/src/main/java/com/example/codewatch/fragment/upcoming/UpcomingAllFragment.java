@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +17,10 @@ import android.widget.TextView;
 
 import com.example.codewatch.R;
 import com.example.codewatch.activity.ContestDetail;
-import com.example.codewatch.adapter.ItemClickSupport;
+import com.example.codewatch.utils.ItemClickSupport;
 import com.example.codewatch.adapter.upcoming.UpcomingAllAdapter;
 import com.example.codewatch.model.Objects;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class UpcomingAllFragment extends Fragment {
@@ -97,6 +95,7 @@ public class UpcomingAllFragment extends Fragment {
         Bundle extras = new Bundle();
         extras.putParcelable("EXTRA_CONTEST", contestsAll);
         extras.putParcelable("EXTRA_CONTEST_2", contestsAll.getResource());
+        extras.putInt("EXTRA_INT",1);
         intentContestDetail.putExtras(extras);
         startActivity(intentContestDetail);
     }

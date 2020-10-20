@@ -1,6 +1,5 @@
 package com.example.codewatch.fragment.upcoming;
 
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,8 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,21 +14,8 @@ import android.widget.TextView;
 
 import com.example.codewatch.R;
 import com.example.codewatch.adapter.upcoming.UpcomingAdapter;
-import com.example.codewatch.model.Contest;
 import com.example.codewatch.model.Objects;
-import com.example.codewatch.rest.ApiClient;
-import com.example.codewatch.rest.ApiInterface;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Locale;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class UpcomingFragment extends Fragment {
 

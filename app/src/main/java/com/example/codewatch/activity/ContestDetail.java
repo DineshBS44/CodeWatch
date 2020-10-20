@@ -45,6 +45,7 @@ public class ContestDetail extends AppCompatActivity {
         Bundle extras = intent.getExtras();
         Objects contests = extras.getParcelable("EXTRA_CONTEST");
         Resource resource = extras.getParcelable("EXTRA_CONTEST_2");
+        Integer upcomingOrOngoing = extras.getInt("EXTRA_INT");
         //final Objects contests = getIntent().getParcelableExtra("EXTRA_CONTEST");
         //Log.i("ContestDetail", "contests.size event name inside ContestDetail is : " + contests.getEvent());
 
@@ -117,9 +118,14 @@ public class ContestDetail extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if (startTime.before(timeAfterOneHour)) {
+        if (startTime.before(timeAfterOneHour) && upcomingOrOngoing==1) {
             contestNotified.setText(R.string.contest_starts_soon);
         }
+        if(upcomingOrOngoing==2)
+        {
+            contestNotified.setText(R.string.contest_live_now);
+        }
+
     }
 
     public void setDateAndTime(Objects contests) {
