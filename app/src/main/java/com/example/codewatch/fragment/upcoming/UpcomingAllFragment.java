@@ -20,6 +20,7 @@ import com.example.codewatch.activity.ContestDetail;
 import com.example.codewatch.utils.ItemClickSupport;
 import com.example.codewatch.adapter.upcoming.UpcomingAllAdapter;
 import com.example.codewatch.model.Objects;
+import com.example.codewatch.utils.OverlayFrame;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,7 @@ public class UpcomingAllFragment extends Fragment {
     ArrayList<Objects> contestsAll=new ArrayList<>();
     RecyclerView upcomingAllRecyclerView;
     TextView emptyUpcomingAll, emptyNetworkIssueUpcomingAll;
+    OverlayFrame overlayFrame;
 
     public UpcomingAllFragment() {
         // Required empty public constructor
@@ -61,6 +63,8 @@ public class UpcomingAllFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        overlayFrame=getActivity().findViewById(R.id.overlay_frame);
+        //overlayFrame.displayOverlay(true);
         upcomingAllRecyclerView = view.findViewById(R.id.upcoming_all_rv);
         emptyUpcomingAll=view.findViewById(R.id.empty_upcoming_all_tv);
         emptyNetworkIssueUpcomingAll=view.findViewById(R.id.empty_network_issue_upcoming_all_tv);
@@ -71,12 +75,15 @@ public class UpcomingAllFragment extends Fragment {
         if(contestsAll!=null && contestsAll.size()!=0)
         {
             upcomingAllRecyclerView.setAdapter(new UpcomingAllAdapter(contestsAll));
+            //overlayFrame.displayOverlay(false);
         }
         else {
             emptyUpcomingAll.setVisibility(View.VISIBLE);
             emptyNetworkIssueUpcomingAll.setVisibility(View.VISIBLE);
             //Log.i("UpcomingAllFragment","The visibility is set for the emtpy placeholder text views ");
+            //overlayFrame.displayOverlay(false);
         }
+        //overlayFrame.displayOverlay(false);
 
         ItemClickSupport.addTo(upcomingAllRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
