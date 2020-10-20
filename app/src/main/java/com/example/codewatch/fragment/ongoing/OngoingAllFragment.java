@@ -3,7 +3,6 @@ package com.example.codewatch.fragment.ongoing;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codewatch.R;
 import com.example.codewatch.activity.ContestDetail;
-import com.example.codewatch.adapter.ItemClickSupport;
+import com.example.codewatch.utils.ItemClickSupport;
 import com.example.codewatch.adapter.ongoing.OngoingAllAdapter;
 import com.example.codewatch.model.Objects;
 

@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codewatch.R;
 import com.example.codewatch.activity.ContestDetail;
-import com.example.codewatch.adapter.ItemClickSupport;
+import com.example.codewatch.utils.ItemClickSupport;
 import com.example.codewatch.adapter.ongoing.OngoingLongAdapter;
 import com.example.codewatch.model.Objects;
 

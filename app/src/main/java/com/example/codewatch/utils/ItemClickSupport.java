@@ -1,4 +1,4 @@
-package com.example.codewatch.adapter;
+package com.example.codewatch.utils;
 
 import android.view.View;
 
