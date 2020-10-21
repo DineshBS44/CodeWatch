@@ -3,6 +3,9 @@ package com.example.codewatch.activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,6 +19,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -31,6 +35,7 @@ import com.example.codewatch.rest.ApiClient;
 import com.example.codewatch.rest.ApiInterface;
 import com.example.codewatch.utils.OverlayFrame;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -56,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     ProgressBar progressBar;
     ImageView overlayImage;
+    CoordinatorLayout rootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progress_bar_overlay);
         overlayImage = findViewById(R.id.overlay_frame_image);
+        rootView = findViewById(R.id.root_activty_main);
         overlayFrame = findViewById(R.id.overlay_frame);
         overlayFrame.displayOverlay(true);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -129,7 +136,25 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<Contest> call, Throwable t) {
                 // Log error here since request failed
                 Log.e(TAG, t.toString());
-                Toast.makeText(getApplicationContext(), "Check your internet connection or try again later", Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar
+                        .make(rootView, "Please check your internet connection", Snackbar.LENGTH_LONG);
+                snackbar.setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+                snackbar.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+                //displaySnackBarWithBottomMargin(snackbar,10,20);
+                /*
+                View snackBarView = snackbar.getView();
+                CoordinatorLayout.LayoutParams params = new CoordinatorLayout.LayoutParams(
+                        CoordinatorLayout.LayoutParams.WRAP_CONTENT,
+                        CoordinatorLayout.LayoutParams.WRAP_CONTENT);
+
+                params.setMargins(10, 1000, 10, 20);
+
+                snackBarView.setLayoutParams(params);
+                
+                 */
+
+                snackbar.show();
+                //Toast.makeText(getApplicationContext(), "Check your internet connection or try again later", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -153,59 +178,11 @@ public class MainActivity extends AppCompatActivity {
                     contestsLong.add(objects);
             }
 
-        /*bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.nav_upcoming:
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        UpcomingFragment upcomingFragment = UpcomingFragment.newInstance(contestsAll, contestsShort, contestsLong);
-                        ft.replace(R.id.nav_host_fragment_container, upcomingFragment);
-                        ft.commit();
-                        break;
-                    case R.id.nav_ongoing:
-                        FragmentManager manager = getSupportFragmentManager();
-                        manager.beginTransaction().replace(R.id.nav_host_fragment_container, new OngoingFragment()).commit();
-                        break;
-                    case R.id.nav_about:
-                        FragmentManager manager2 = getSupportFragmentManager();
-                        manager2.beginTransaction().replace(R.id.nav_host_fragment_container, new AboutFragment()).commit();
-                        break;
-                }
-                return true;
-            }
-        });
-
-        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
-            @Override
-            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                if (destination.getId() == R.id.nav_upcoming) {
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    UpcomingFragment upcomingFragment = UpcomingFragment.newInstance(contestsAll, contestsShort, contestsLong);
-                    ft.replace(R.id.nav_host_fragment_container, upcomingFragment);
-                    ft.commit();
-                } else if (destination.getId() == R.id.nav_ongoing) {
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    OngoingFragment ongoingFragment = new OngoingFragment();
-                    ft.replace(R.id.nav_host_fragment_container, ongoingFragment);
-                    ft.commit();
-                } else {
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    AboutFragment aboutFragment = new AboutFragment();
-                    ft.replace(R.id.nav_host_fragment_container, aboutFragment);
-                    ft.commit();
-                }
-            }
-        });
-
-        overlayFrame.displayOverlay(false);*/
-
-        fetchDataOngoing(contestsAll,contestsShort,contestsLong,currentDateandTime,dateAndTimeAfterOneWeek);
+        fetchDataOngoing(contestsAll, contestsShort, contestsLong, currentDateandTime, dateAndTimeAfterOneWeek);
 
     }
 
-    void fetchDataOngoing(ArrayList<Objects> contestsAll, ArrayList<Objects> contestsShort, ArrayList<Objects> contestsLong, String currentDateandTime, String dateAndTimeAfterOneWeek)
-    {
+    void fetchDataOngoing(ArrayList<Objects> contestsAll, ArrayList<Objects> contestsShort, ArrayList<Objects> contestsLong, String currentDateandTime, String dateAndTimeAfterOneWeek) {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<Contest> call = apiService.getOngoingAllContest(format, orderBy, currentDateandTime, currentDateandTime, USER_NAME, API_KEY);
         call.enqueue(new Callback<Contest>() {
@@ -255,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
                     contestsLongOngoing.add(objects);
             }
 
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -302,7 +280,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         overlayFrame.displayOverlay(false);
+    }
+
+    public static void displaySnackBarWithBottomMargin(Snackbar snackbar, int sideMargin, int marginBottom) {
+        final View snackBarView = snackbar.getView();
+        final CoordinatorLayout.MarginLayoutParams params = (CoordinatorLayout.MarginLayoutParams) snackBarView.getLayoutParams();
+
+        params.setMargins(params.leftMargin + sideMargin,
+                params.topMargin,
+                params.rightMargin + sideMargin,
+                params.bottomMargin + marginBottom);
+
+        snackBarView.setLayoutParams(params);
+        snackbar.show();
     }
 
 }
