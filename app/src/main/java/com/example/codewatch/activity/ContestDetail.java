@@ -134,7 +134,7 @@ public class ContestDetail extends AppCompatActivity {
         startDateTime = startDateTime.replace("T", ",");
         endDateTime = endDateTime.replace("T", ",");
         SimpleDateFormat dfStart = new SimpleDateFormat("yyyy-MM-dd,HH:mm:ss", Locale.ENGLISH);
-        SimpleDateFormat dfStart2 = new SimpleDateFormat("dd/MM/yy,HH:mm", Locale.ENGLISH);
+        SimpleDateFormat dfStart2 = new SimpleDateFormat("dd/MM/yy,h:mm a", Locale.ENGLISH);
         dfStart.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date dateStart = null;
         try {
@@ -146,7 +146,7 @@ public class ContestDetail extends AppCompatActivity {
         String formattedStartDateTime = dfStart2.format(dateStart);
 
         SimpleDateFormat dfEnd = new SimpleDateFormat("yyyy-MM-dd,HH:mm:ss", Locale.ENGLISH);
-        SimpleDateFormat dfEnd2 = new SimpleDateFormat("dd/MM/yy,HH:mm", Locale.ENGLISH);
+        SimpleDateFormat dfEnd2 = new SimpleDateFormat("dd/MM/yy,h:mm a", Locale.ENGLISH);
         dfEnd.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date dateEnd = null;
         try {
@@ -165,7 +165,7 @@ public class ContestDetail extends AppCompatActivity {
         String endTime = end[1];
 
         String startAndEndDate = startDate + " - " + endDate;
-        String startAndEndTime = startTime + " - " + endTime;
+        String startAndEndTime = startTime + " to " + endTime;
         contestDate.setText(startAndEndDate);
         contestTime.setText(startAndEndTime);
     }
