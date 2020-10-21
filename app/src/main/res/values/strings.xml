@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Code Watch</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="contest_starts_soon">The contest will be starting soon</string>
     <string name="contest_live_now">The contest is live now</string>
+    <string name="about_text">Helps coders to keep track of the ongoing and upcoming contests in all the major Coding platforms and also notifies them about the upcoming contest 1 hour beforehand</string>
 </resources>

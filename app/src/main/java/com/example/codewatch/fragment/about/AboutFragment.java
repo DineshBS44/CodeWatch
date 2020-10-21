@@ -1,10 +1,9 @@
-package com.example.codewatch.fragment;
+package com.example.codewatch.fragment.about;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
