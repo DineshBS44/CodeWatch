@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
     NavController navController;
     BottomNavigationView bottomNavigationView;
     ProgressBar progressBar;
-    ImageView overlayImage;
     CoordinatorLayout rootView;
 
     @Override
@@ -67,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         progressBar = findViewById(R.id.progress_bar_overlay);
-        overlayImage = findViewById(R.id.overlay_frame_image);
         rootView = findViewById(R.id.root_activty_main);
         overlayFrame = findViewById(R.id.overlay_frame);
         overlayFrame.displayOverlay(true);

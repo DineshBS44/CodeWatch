@@ -18,7 +18,6 @@ import com.example.codewatch.R;
 public class OverlayFrame extends CoordinatorLayout {
     private boolean overlay = false;
     private ProgressBar progressBar;
-    private ImageView overlayImage;
     private ColorDrawable overlayDrawable, plainDrawable;
 
     public OverlayFrame(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -37,17 +36,14 @@ public class OverlayFrame extends CoordinatorLayout {
         overlay = isVisible;
 
         progressBar = ((Activity) getContext()).findViewById(R.id.progress_bar_overlay);
-        overlayImage=((Activity)getContext()).findViewById(R.id.overlay_frame_image);
         overlayDrawable = new ColorDrawable(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
         plainDrawable = new ColorDrawable(ContextCompat.getColor(getContext(), android.R.color.transparent));
 
         if (isVisible) {
             setForeground(overlayDrawable);
-            //overlayImage.setVisibility(VISIBLE);
             progressBar.setVisibility(VISIBLE);
         } else {
             setForeground(plainDrawable);
-            //overlayImage.setVisibility(INVISIBLE);
             progressBar.setVisibility(INVISIBLE);
         }
     }
