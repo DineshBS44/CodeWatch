@@ -9,4 +9,5 @@
     <color name="colorOrangeNew">#FFB74D</color>
     <color name="loadingOverlay">#732B2A2A</color>
     <color name="colorSurface">#3F3E3C</color>
+    <color name="colorLink">#0077CC</color>
 </resources>
