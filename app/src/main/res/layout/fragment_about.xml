@@ -108,6 +108,7 @@
                         android:orientation="vertical">
 
                         <ImageView
+                            android:id="@+id/codechef_link"
                             android:layout_width="150dp"
                             android:layout_height="150dp"
                             android:layout_gravity="center"
@@ -135,6 +136,7 @@
                         android:orientation="vertical">
 
                         <ImageView
+                            android:id="@+id/codeforces_link"
                             android:layout_width="150dp"
                             android:layout_height="150dp"
                             android:layout_gravity="center"
@@ -170,6 +172,7 @@
                         android:orientation="vertical">
 
                         <ImageView
+                            android:id="@+id/hackerrank_link"
                             android:layout_width="150dp"
                             android:layout_height="150dp"
                             android:layout_gravity="center"
@@ -197,6 +200,7 @@
                         android:orientation="vertical">
 
                         <ImageView
+                            android:id="@+id/topcoder_link"
                             android:layout_width="150dp"
                             android:layout_height="150dp"
                             android:layout_gravity="center"
@@ -232,6 +236,7 @@
                         android:orientation="vertical">
 
                         <ImageView
+                            android:id="@+id/google_link"
                             android:layout_width="150dp"
                             android:layout_height="150dp"
                             android:layout_gravity="center"
@@ -259,6 +264,7 @@
                         android:orientation="vertical">
 
                         <ImageView
+                            android:id="@+id/atcoder_link"
                             android:layout_width="150dp"
                             android:layout_height="150dp"
                             android:layout_gravity="center"
@@ -294,6 +300,7 @@
                         android:orientation="vertical">
 
                         <ImageView
+                            android:id="@+id/leetcode_link"
                             android:layout_width="150dp"
                             android:layout_height="150dp"
                             android:layout_gravity="center"
@@ -321,6 +328,7 @@
                         android:orientation="vertical">
 
                         <ImageView
+                            android:id="@+id/hackerearth_link"
                             android:layout_width="150dp"
                             android:layout_height="150dp"
                             android:layout_gravity="center"

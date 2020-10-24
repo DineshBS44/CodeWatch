@@ -4,4 +4,12 @@
     <string name="contest_starts_soon">The contest will be starting soon</string>
     <string name="contest_live_now">The contest is live now</string>
     <string name="about_text">Helps coders to keep track of the ongoing and upcoming contests in all the major Coding platforms and also notifies them about the upcoming contest 1 hour beforehand</string>
+    <string name="codechef_link">https://www.codechef.com</string>
+    <string name="codeforces_link">https://www.codeforces.com</string>
+    <string name="atcoder_link">https://atcoder.jp</string>
+    <string name="google_link">https://codingcompetitions.withgoogle.com</string>
+    <string name="hackerearth_link">https://www.hackerearth.com</string>
+    <string name="hackerrank_link">https://www.hackerrank.com</string>
+    <string name="leetcode_link">https://www.leetcode.com</string>
+    <string name="topcoder_link">https://topcoder.com</string>
 </resources>
