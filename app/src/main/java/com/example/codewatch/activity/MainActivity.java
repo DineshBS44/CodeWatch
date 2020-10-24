@@ -197,7 +197,15 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<Contest> call, Throwable t) {
                 // Log error here since request failed
                 Log.e(TAG, t.toString());
-                Toast.makeText(getApplicationContext(), "Check your internet connection or try again later", Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar.make(rootView, R.string.no_internet, Snackbar.LENGTH_LONG);
+                snackbar.setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+                snackbar.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+                View view = snackbar.getView();
+                TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
+                tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                tv.setTextSize(16);
+                snackbar.show();
+                //Toast.makeText(getApplicationContext(), "Check your internet connection or try again later", Toast.LENGTH_SHORT).show();
             }
         });
     }
