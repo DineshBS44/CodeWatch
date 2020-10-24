@@ -18,7 +18,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:lottie_autoPlay="true"
         app:lottie_fileName="code_anim.json"
-        app:lottie_speed="2"
+        app:lottie_speed="2.5"
         app:lottie_loop="false" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
