@@ -12,12 +12,15 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.codewatch.R;
@@ -131,23 +134,13 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<Contest> call, Throwable t) {
                 // Log error here since request failed
                 Log.e(TAG, t.toString());
-                Snackbar snackbar = Snackbar
-                        .make(rootView, "Please check your internet connection", Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(rootView, R.string.no_internet, Snackbar.LENGTH_LONG);
                 snackbar.setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
                 snackbar.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
-                //displaySnackBarWithBottomMargin(snackbar,10,20);
-                /*
-                View snackBarView = snackbar.getView();
-                CoordinatorLayout.LayoutParams params = new CoordinatorLayout.LayoutParams(
-                        CoordinatorLayout.LayoutParams.WRAP_CONTENT,
-                        CoordinatorLayout.LayoutParams.WRAP_CONTENT);
-
-                params.setMargins(10, 1000, 10, 20);
-
-                snackBarView.setLayoutParams(params);
-                
-                 */
-
+                View view = snackbar.getView();
+                TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
+                tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                tv.setTextSize(16);
                 snackbar.show();
                 //Toast.makeText(getApplicationContext(), "Check your internet connection or try again later", Toast.LENGTH_SHORT).show();
             }
@@ -227,7 +220,6 @@ public class MainActivity extends AppCompatActivity {
                     contestsLongOngoing.add(objects);
             }
 
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -275,21 +267,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         overlayFrame.displayOverlay(false);
-    }
-
-    public static void displaySnackBarWithBottomMargin(Snackbar snackbar, int sideMargin, int marginBottom) {
-        final View snackBarView = snackbar.getView();
-        final CoordinatorLayout.MarginLayoutParams params = (CoordinatorLayout.MarginLayoutParams) snackBarView.getLayoutParams();
-
-        params.setMargins(params.leftMargin + sideMargin,
-                params.topMargin,
-                params.rightMargin + sideMargin,
-                params.bottomMargin + marginBottom);
-
-        snackBarView.setLayoutParams(params);
-        snackbar.show();
     }
 
 }

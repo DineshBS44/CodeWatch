@@ -12,4 +12,5 @@
     <string name="hackerrank_link">https://www.hackerrank.com</string>
     <string name="leetcode_link">https://www.leetcode.com</string>
     <string name="topcoder_link">https://topcoder.com</string>
+    <string name="no_internet">Please check your Internet connection</string>
 </resources>
