@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
         Date currentDate = cal.getTime();
 
-        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 7);
+        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 10);
 
         Date dateAfterOneWeek = cal.getTime();
 
@@ -333,6 +333,20 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
+
+
+        //Gson gson2 = new Gson();
+        //String json = gson2.toJson(contestsAll);
+
+        SharedPreferences shref2;
+        SharedPreferences.Editor editor2;
+        shref2 = this.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+        editor2 = shref2.edit();
+        editor2.remove(key).commit();
+        //editor2.putString(key, json);
+        editor2.commit();
+
     }
 
 
