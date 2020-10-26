@@ -67,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
     CoordinatorLayout rootView;
 
-    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String MyPREFERENCES1 = "MyPrefs";
+    public static final String MyPREFERENCES2 = "MyPrefsLong";
     public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
     private final static String default_notification_channel_id = "default" ;
 
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
         Date currentDate = cal.getTime();
 
-        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 10);
+        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 7);
 
         Date dateAfterOneWeek = cal.getTime();
 
@@ -294,16 +295,29 @@ public class MainActivity extends AppCompatActivity {
 
     void setNotifications(ArrayList<Objects> contestsAll)
     {
-        long notiNumLong = 0;
+        long notiNumLong;
         String key = "Key";
+
+        String key2 = "Key2";
+        SharedPreferences shref3;
+        SharedPreferences.Editor editor3;
+        shref3 = this.getSharedPreferences(MyPREFERENCES2, Context.MODE_PRIVATE);
+        notiNumLong=shref3.getLong(key2,0);
+
+
         SharedPreferences shref;
         SharedPreferences.Editor editor;
-        shref = this.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        shref = this.getSharedPreferences(MyPREFERENCES1, Context.MODE_PRIVATE);
 
         Gson gson = new Gson();
         String response=shref.getString(key , "");
         ArrayList<Objects> contests = gson.fromJson(response,
                 new TypeToken<ArrayList<Objects>>(){}.getType());
+
+        if(contests==null)
+            Log.d("MainActivity","The size of contests in alarm is :) 0 ");
+        else
+            Log.d("MainActivity","The size of contests in alarm is " + contests.size());
 
         if(contestsAll!=null)
         if(contests!=contestsAll)
@@ -327,8 +341,10 @@ public class MainActivity extends AppCompatActivity {
 
                 int mod = 1000000007;
                 int notiNum = (int)notiNumLong%mod;
+                notiNumLong++;
 
-                scheduleNotification(getNotification(objects), notiNum);
+                long futureInMillis = getFutureInMillis(objects);
+                scheduleNotification(getNotification(objects), notiNum, futureInMillis);
 
 
             }
@@ -340,12 +356,20 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences shref2;
         SharedPreferences.Editor editor2;
-        shref2 = this.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        shref2 = this.getSharedPreferences(MyPREFERENCES1, Context.MODE_PRIVATE);
 
         editor2 = shref2.edit();
         editor2.remove(key).commit();
         //editor2.putString(key, json);
         editor2.commit();
+
+        SharedPreferences shref4;
+        SharedPreferences.Editor editor4;
+        shref4 = this.getSharedPreferences(MyPREFERENCES2, Context.MODE_PRIVATE);
+        editor4=shref4.edit();
+        editor4.remove(key2).commit();
+        editor4.putLong(key2,notiNumLong+1);
+        editor4.commit();
 
     }
 
@@ -436,12 +460,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void scheduleNotification (Notification notification, int notiNum) {
+    private void scheduleNotification (Notification notification, int notiNum, long futureInMillis) {
         Intent notificationIntent = new Intent( this, MyNotificationPublisher. class ) ;
         notificationIntent.putExtra(MyNotificationPublisher. NOTIFICATION_ID , 1 ) ;
         notificationIntent.putExtra(MyNotificationPublisher. NOTIFICATION , notification) ;
         PendingIntent pendingIntent = PendingIntent. getBroadcast ( this, notiNum , notificationIntent , PendingIntent. FLAG_UPDATE_CURRENT ) ;
-        long futureInMillis = SystemClock. elapsedRealtime ();
+        futureInMillis = SystemClock. elapsedRealtime ();
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context. ALARM_SERVICE ) ;
         assert alarmManager != null;
         alarmManager.set(AlarmManager. ELAPSED_REALTIME_WAKEUP , futureInMillis + 10000 , pendingIntent) ;
@@ -490,6 +514,12 @@ public class MainActivity extends AppCompatActivity {
         builder.setAutoCancel( true ) ;
         builder.setChannelId( NOTIFICATION_CHANNEL_ID ) ;
         return builder.build() ;
+    }
+
+    private long getFutureInMillis(Objects contest)
+    {
+        long futureInMillis = 0;
+        return futureInMillis;
     }
 
 }
