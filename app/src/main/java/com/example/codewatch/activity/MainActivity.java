@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -12,16 +13,19 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
-import android.graphics.Color;
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.codewatch.R;
 import com.example.codewatch.fragment.about.AboutFragment;
@@ -31,9 +35,12 @@ import com.example.codewatch.model.Contest;
 import com.example.codewatch.model.Objects;
 import com.example.codewatch.rest.ApiClient;
 import com.example.codewatch.rest.ApiInterface;
+import com.example.codewatch.utils.MyNotificationPublisher;
 import com.example.codewatch.utils.OverlayFrame;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     ProgressBar progressBar;
     CoordinatorLayout rootView;
+
+    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
+    private final static String default_notification_channel_id = "default" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
         Date currentDate = cal.getTime();
 
-        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 7);
+        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 10);
 
         Date dateAfterOneWeek = cal.getTime();
 
@@ -125,6 +136,9 @@ public class MainActivity extends AppCompatActivity {
 
                 sendDataUpcoming(contestsAll, contestsShort, contestsLong, currentDateandTime, dateAndTimeAfterOneWeek);
                 //Log.i(TAG,"The size of contestsAll is "+contestsAll.size());
+
+                if(contestsAll!=null || contestsAll.size()!=0)
+                    setNotifications(contestsAll);
 
             }
 
@@ -274,6 +288,208 @@ public class MainActivity extends AppCompatActivity {
         });
 
         overlayFrame.displayOverlay(false);
+
+        setNotifications(contestsAll);
+    }
+
+    void setNotifications(ArrayList<Objects> contestsAll)
+    {
+        long notiNumLong = 0;
+        String key = "Key";
+        SharedPreferences shref;
+        SharedPreferences.Editor editor;
+        shref = this.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+        Gson gson = new Gson();
+        String response=shref.getString(key , "");
+        ArrayList<Objects> contests = gson.fromJson(response,
+                new TypeToken<ArrayList<Objects>>(){}.getType());
+
+        if(contestsAll!=null)
+        if(contests!=contestsAll)
+        {
+            for(int i=0;i<contestsAll.size();i++)
+            {
+                Objects objects = contestsAll.get(i);
+                int flag=0;
+                if(contests!=null)
+                for(int j=0;j<contests.size();j++)
+                {
+                    Objects objects1 = contests.get(j);
+                    if(objects.getEvent().equals(objects1.getEvent()))
+                    {
+                        flag=1;
+                        break;
+                    }
+                }
+                if(flag==1)
+                    continue;
+
+                int mod = 1000000007;
+                int notiNum = (int)notiNumLong%mod;
+
+                scheduleNotification(getNotification(objects), notiNum);
+
+
+            }
+        }
+
+
+        //Gson gson2 = new Gson();
+        //String json = gson2.toJson(contestsAll);
+
+        SharedPreferences shref2;
+        SharedPreferences.Editor editor2;
+        shref2 = this.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+        editor2 = shref2.edit();
+        editor2.remove(key).commit();
+        //editor2.putString(key, json);
+        editor2.commit();
+
+    }
+
+
+    /*public void scheduleNotification(Objects contests) {
+
+        String notificationTitle = "";
+        if(contests.getResource().getName().equals("codechef.com"))
+        {
+            notificationTitle="Codechef";
+        }
+        else if(contests.getResource().getName().equals("codeforces.com"))
+        {
+            notificationTitle="Codeforces";
+        }
+        else if(contests.getResource().getName().equals("topcoder.com"))
+        {
+            notificationTitle="Topcoder";
+        }
+        else if(contests.getResource().getName().equals("leetcode.com"))
+        {
+            notificationTitle="Leetcode";
+        }
+        else if(contests.getResource().getName().equals("hackerearth.com"))
+        {
+            notificationTitle="Hackerearth";
+        }
+        else if(contests.getResource().getName().equals("hackerrank.com"))
+        {
+            notificationTitle="Hackerrank";
+        }
+        else if(contests.getResource().getName().equals("atcoder.jp"))
+        {
+            notificationTitle="Atcoder";
+        }
+        else if(contests.getResource().getName().equals("codingcompetitions.withgoogle.com"))
+        {
+            notificationTitle="Kickstart";
+        }
+
+        Log.d("MainActivity","It is running : : ");
+        *//*Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 22);
+        calendar.set(Calendar.MINUTE, 49);
+        calendar.set(Calendar.SECOND, 0);*//*
+        Intent notifyIntent = new Intent(getApplicationContext(), ShowNotifications.class);
+        notifyIntent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),0,notifyIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,  SystemClock. elapsedRealtime () + 10000, pendingIntent);
+
+
+
+
+        *//*NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        String NOTIFICATION_CHANNEL_ID = "my_channel_id_01";
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "My Notifications", NotificationManager.IMPORTANCE_HIGH);
+
+            // Configure the notification channel.
+            notificationChannel.setDescription("Channel description");
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
+            notificationChannel.enableVibration(true);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+
+        notificationBuilder.setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setWhen(System.currentTimeMillis()+10000000)
+                .setSmallIcon(R.drawable.ic_code_watch_app_icon)
+                .setTicker("Hearty365")
+                .setContentTitle(notificationTitle)
+                .setContentText("The contest will start in 1 hour")
+                .setContentInfo("Info");
+
+        notificationManager.notify(*//**//*notification id*//**//*1, notificationBuilder.build());*//*
+    }*/
+
+
+
+
+
+
+
+    private void scheduleNotification (Notification notification, int notiNum) {
+        Intent notificationIntent = new Intent( this, MyNotificationPublisher. class ) ;
+        notificationIntent.putExtra(MyNotificationPublisher. NOTIFICATION_ID , 1 ) ;
+        notificationIntent.putExtra(MyNotificationPublisher. NOTIFICATION , notification) ;
+        PendingIntent pendingIntent = PendingIntent. getBroadcast ( this, notiNum , notificationIntent , PendingIntent. FLAG_UPDATE_CURRENT ) ;
+        long futureInMillis = SystemClock. elapsedRealtime ();
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context. ALARM_SERVICE ) ;
+        assert alarmManager != null;
+        alarmManager.set(AlarmManager. ELAPSED_REALTIME_WAKEUP , futureInMillis + 10000 , pendingIntent) ;
+    }
+
+    private Notification getNotification (Objects contests) {
+
+        String notificationTitle = "";
+        if(contests.getResource().getName().equals("codechef.com"))
+        {
+            notificationTitle="Codechef";
+        }
+        else if(contests.getResource().getName().equals("codeforces.com"))
+        {
+            notificationTitle="Codeforces";
+        }
+        else if(contests.getResource().getName().equals("topcoder.com"))
+        {
+            notificationTitle="Topcoder";
+        }
+        else if(contests.getResource().getName().equals("leetcode.com"))
+        {
+            notificationTitle="Leetcode";
+        }
+        else if(contests.getResource().getName().equals("hackerearth.com"))
+        {
+            notificationTitle="Hackerearth";
+        }
+        else if(contests.getResource().getName().equals("hackerrank.com"))
+        {
+            notificationTitle="Hackerrank";
+        }
+        else if(contests.getResource().getName().equals("atcoder.jp"))
+        {
+            notificationTitle="Atcoder";
+        }
+        else if(contests.getResource().getName().equals("codingcompetitions.withgoogle.com"))
+        {
+            notificationTitle="Kickstart";
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder( this, default_notification_channel_id ) ;
+        builder.setContentTitle( notificationTitle ) ;
+        builder.setContentText(contests.getEvent()) ;
+        builder.setSmallIcon(R.drawable. ic_code_watch_app_icon ) ;
+        builder.setAutoCancel( true ) ;
+        builder.setChannelId( NOTIFICATION_CHANNEL_ID ) ;
+        return builder.build() ;
     }
 
 }
