@@ -391,22 +391,31 @@ public class MainActivity extends AppCompatActivity {
     private Notification getNotification(Objects contests) {
 
         String notificationTitle = "";
-        if (contests.getResource().getName().equals("codechef.com")) {
-            notificationTitle = "Codechef";
-        } else if (contests.getResource().getName().equals("codeforces.com")) {
-            notificationTitle = "Codeforces";
-        } else if (contests.getResource().getName().equals("topcoder.com")) {
-            notificationTitle = "Topcoder";
-        } else if (contests.getResource().getName().equals("leetcode.com")) {
-            notificationTitle = "Leetcode";
-        } else if (contests.getResource().getName().equals("hackerearth.com")) {
-            notificationTitle = "Hackerearth";
-        } else if (contests.getResource().getName().equals("hackerrank.com")) {
-            notificationTitle = "Hackerrank";
-        } else if (contests.getResource().getName().equals("atcoder.jp")) {
-            notificationTitle = "Atcoder";
-        } else if (contests.getResource().getName().equals("codingcompetitions.withgoogle.com")) {
-            notificationTitle = "Kickstart";
+        switch (contests.getResource().getName()) {
+            case "codechef.com":
+                notificationTitle = "Codechef";
+                break;
+            case "codeforces.com":
+                notificationTitle = "Codeforces";
+                break;
+            case "topcoder.com":
+                notificationTitle = "Topcoder";
+                break;
+            case "leetcode.com":
+                notificationTitle = "Leetcode";
+                break;
+            case "hackerearth.com":
+                notificationTitle = "Hackerearth";
+                break;
+            case "hackerrank.com":
+                notificationTitle = "Hackerrank";
+                break;
+            case "atcoder.jp":
+                notificationTitle = "Atcoder";
+                break;
+            case "codingcompetitions.withgoogle.com":
+                notificationTitle = "Kickstart";
+                break;
         }
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, default_notification_channel_id);
