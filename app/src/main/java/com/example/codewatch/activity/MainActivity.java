@@ -42,6 +42,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private final static String format = "json";
     private final static String orderBy = "start";
     private final static Integer duration = 21600;
+    private final static long durationInMillis = 3600000;
     OverlayFrame overlayFrame;
     NavController navController;
     BottomNavigationView bottomNavigationView;
@@ -461,14 +463,19 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void scheduleNotification (Notification notification, int notiNum, long futureInMillis) {
+
+        futureInMillis=futureInMillis-durationInMillis;
+        long futureTime = SystemClock. elapsedRealtime ();
+        if(futureTime>futureInMillis)
+            return;
+
         Intent notificationIntent = new Intent( this, MyNotificationPublisher. class ) ;
         notificationIntent.putExtra(MyNotificationPublisher. NOTIFICATION_ID , 1 ) ;
         notificationIntent.putExtra(MyNotificationPublisher. NOTIFICATION , notification) ;
         PendingIntent pendingIntent = PendingIntent. getBroadcast ( this, notiNum , notificationIntent , PendingIntent. FLAG_UPDATE_CURRENT ) ;
-        futureInMillis = SystemClock. elapsedRealtime ();
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context. ALARM_SERVICE ) ;
         assert alarmManager != null;
-        alarmManager.set(AlarmManager. ELAPSED_REALTIME_WAKEUP , futureInMillis + 10000 , pendingIntent) ;
+        alarmManager.set(AlarmManager. ELAPSED_REALTIME_WAKEUP , futureInMillis, pendingIntent) ;
     }
 
     private Notification getNotification (Objects contests) {
@@ -519,6 +526,20 @@ public class MainActivity extends AppCompatActivity {
     private long getFutureInMillis(Objects contest)
     {
         long futureInMillis = 0;
+
+        String myDate = contest.getStart();
+        myDate = myDate.replace("T",",");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd,HH:mm:ss",Locale.ENGLISH);
+        Date date = null;
+        try {
+            date = sdf.parse(myDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (date != null) {
+            futureInMillis = date.getTime();
+        }
+
         return futureInMillis;
     }
 
