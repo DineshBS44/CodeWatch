@@ -3,6 +3,7 @@
     package="com.example.codewatch">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name = "android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -11,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <receiver  android:process=":remote" android:name=".utils.MyNotificationPublisher"/>
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
