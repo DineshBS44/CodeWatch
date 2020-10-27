@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private final static String format = "json";
     private final static String orderBy = "start";
     private final static Integer duration = 21600;
-    private final static long durationInMillis = 3600000;
+    private final static long durationInMillis = 1800000; // should be 3600000
     OverlayFrame overlayFrame;
     NavController navController;
     BottomNavigationView bottomNavigationView;
@@ -296,6 +296,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void setNotifications(ArrayList<Objects> contestsAll) {
+
+        long currentTimeMillis = System.currentTimeMillis();
+        Log.d("MainActivity", "The time now is " + currentTimeMillis);
+
         long notiNumLong;
         String key = "Key";
 
@@ -344,7 +348,6 @@ public class MainActivity extends AppCompatActivity {
                     long futureInMillis = getFutureInMillis(objects);
                     scheduleNotification(getNotification(objects), notiNum, futureInMillis);
 
-
                 }
             }
 
@@ -375,9 +378,12 @@ public class MainActivity extends AppCompatActivity {
     private void scheduleNotification(Notification notification, int notiNum, long futureInMillis) {
 
         futureInMillis = futureInMillis - durationInMillis;
-        long futureTime = SystemClock.elapsedRealtime();
-        if (futureTime > futureInMillis)
+        long elapsedTime = SystemClock.elapsedRealtime();
+        long time = System.currentTimeMillis();
+        if (time > futureInMillis)
             return;
+
+        futureInMillis = futureInMillis - time + elapsedTime;
 
         Intent notificationIntent = new Intent(this, MyNotificationPublisher.class);
         notificationIntent.putExtra(MyNotificationPublisher.NOTIFICATION_ID, 1);
@@ -386,6 +392,8 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         assert alarmManager != null;
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+
+        Log.d("MainActivity", "The time futureInMillis in notifications is " + notiNum);
     }
 
     private Notification getNotification(Objects contests) {
@@ -433,15 +441,33 @@ public class MainActivity extends AppCompatActivity {
         String myDate = contest.getStart();
         myDate = myDate.replace("T", ",");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd,HH:mm:ss", Locale.ENGLISH);
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date = null;
         try {
             date = sdf.parse(myDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        sdf.setTimeZone(TimeZone.getDefault());
+        String formattedDate = null;
         if (date != null) {
-            futureInMillis = date.getTime();
+            formattedDate = sdf.format(date);
         }
+        Date date2 = null;
+        try {
+            if (formattedDate != null) {
+                date2 = sdf.parse(formattedDate);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (date2 != null) {
+            futureInMillis = date2.getTime();
+        }
+
+        Log.d("MainActivity", "The time futureInMillis is " + futureInMillis);
 
         return futureInMillis;
     }
