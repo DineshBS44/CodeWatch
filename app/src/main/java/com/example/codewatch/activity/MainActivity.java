@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private final static String format = "json";
     private final static String orderBy = "start";
     private final static Integer duration = 21600;
-    private final static long durationInMillis = 1800000; // should be 3600000
+    private final static long durationInMillis = 3600000; // should be 3600000
     OverlayFrame overlayFrame;
     NavController navController;
     BottomNavigationView bottomNavigationView;
@@ -346,7 +346,7 @@ public class MainActivity extends AppCompatActivity {
                     notiNumLong++;
 
                     long futureInMillis = getFutureInMillis(objects);
-                    scheduleNotification(getNotification(objects), notiNum, futureInMillis);
+                    scheduleNotification(getNotification(objects, futureInMillis-durationInMillis), notiNum, futureInMillis);
 
                 }
             }
@@ -378,6 +378,7 @@ public class MainActivity extends AppCompatActivity {
     private void scheduleNotification(Notification notification, int notiNum, long futureInMillis) {
 
         futureInMillis = futureInMillis - durationInMillis;
+        Log.d("MainActivity","The alarm time is set to current time in millis is "+futureInMillis);
         long elapsedTime = SystemClock.elapsedRealtime();
         long time = System.currentTimeMillis();
         if (time > futureInMillis)
@@ -394,9 +395,11 @@ public class MainActivity extends AppCompatActivity {
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
 
         Log.d("MainActivity", "The time futureInMillis in notifications is " + notiNum);
+        Log.d("MainActivity","The elapsed time after reboot is " + elapsedTime);
+        Log.d("MainActivity","The time for which the notification is set is " + futureInMillis);
     }
 
-    private Notification getNotification(Objects contests) {
+    private Notification getNotification(Objects contests, long time) {
 
         String notificationTitle = "";
         switch (contests.getResource().getName()) {
@@ -428,10 +431,11 @@ public class MainActivity extends AppCompatActivity {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, default_notification_channel_id);
         builder.setContentTitle(notificationTitle);
-        builder.setContentText(contests.getEvent());
+        builder.setContentText("The contest starts in 1 hour");
         builder.setSmallIcon(R.drawable.ic_code_watch_app_icon);
         builder.setAutoCancel(true);
         builder.setChannelId(NOTIFICATION_CHANNEL_ID);
+        builder.setWhen(time);
         return builder.build();
     }
 
