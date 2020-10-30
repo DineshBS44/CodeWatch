@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
-        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     private void fetchDataUpcoming() {
@@ -361,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
 
         editor2 = shref2.edit();
         editor2.remove(key).commit();
-        editor2.putString(key, json2);
+        //editor2.putString(key, json2);
         editor2.commit();
 
         SharedPreferences shref4;
@@ -369,7 +368,7 @@ public class MainActivity extends AppCompatActivity {
         shref4 = this.getSharedPreferences(MyPREFERENCES2, Context.MODE_PRIVATE);
         editor4 = shref4.edit();
         editor4.remove(key2).commit();
-        editor4.putLong(key2, notiNumLong + 1);
+        //editor4.putLong(key2, notiNumLong + 1);
         editor4.commit();
 
     }
@@ -392,7 +391,7 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notiNum, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         assert alarmManager != null;
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+        alarmManager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
 
         Log.d("MainActivity", "The time futureInMillis in notifications is " + notiNum);
         Log.d("MainActivity","The elapsed time after reboot is " + elapsedTime);
