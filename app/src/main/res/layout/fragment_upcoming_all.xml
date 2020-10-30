@@ -19,7 +19,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:id="@+id/empty_upcoming_all_tv"
-            android:text="There are no contests in the Upcoming week"
+            android:text="There are no contests in the Upcoming month"
             android:textSize="25sp"
             android:textColor="@android:color/white"
             android:fontFamily="@font/cerebri_sans_bold"
