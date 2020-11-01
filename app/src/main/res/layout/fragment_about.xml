@@ -48,15 +48,34 @@
                 app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/cerebri_sans_bold"
-                    android:gravity="center"
-                    android:text="Code Watch"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="35sp" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/cerebri_sans_bold"
+                        android:gravity="end"
+                        android:paddingRight="10dp"
+                        android:text="Code"
+                        android:textColor="@android:color/white"
+                        android:textSize="35sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/cerebri_sans_bold"
+                        android:gravity="start"
+                        android:text="Watch"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="35sp" />
+                </LinearLayout>
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/splash_lottie_anim"
