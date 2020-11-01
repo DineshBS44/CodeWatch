@@ -68,7 +68,7 @@ public class OngoingShortFragment extends Fragment {
         if(contestsShort==null || contestsShort.size()==0)
         {
             emptyOngoingShort.setVisibility(View.VISIBLE);
-            emptyNetworkIssueOngoingShort.setVisibility(View.VISIBLE);
+            //emptyNetworkIssueOngoingShort.setVisibility(View.VISIBLE);
         }
         else {
             ongoingShortRecyclerView.setAdapter(new OngoingShortAdapter(contestsShort));

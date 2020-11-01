@@ -73,7 +73,7 @@ public class OngoingAllFragment extends Fragment {
         }
         else {
             emptyOngoingAll.setVisibility(View.VISIBLE);
-            emptyNetworkIssueOngoingAll.setVisibility(View.VISIBLE);
+            //emptyNetworkIssueOngoingAll.setVisibility(View.VISIBLE);
             //Log.i("OngoingAllFragment","The visibility is set for the empty placeholder text views ");
         }
 

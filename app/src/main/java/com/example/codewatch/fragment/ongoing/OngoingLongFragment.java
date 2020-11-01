@@ -68,7 +68,7 @@ public class OngoingLongFragment extends Fragment {
         if(contestsLong==null || contestsLong.size()==0)
         {
             emptyOngoingLong.setVisibility(View.VISIBLE);
-            emptyNetworkIssueOngoingLong.setVisibility(View.VISIBLE);
+            //emptyNetworkIssueOngoingLong.setVisibility(View.VISIBLE);
         }
         else
             ongoingLongRecyclerView.setAdapter(new OngoingLongAdapter(contestsLong));
