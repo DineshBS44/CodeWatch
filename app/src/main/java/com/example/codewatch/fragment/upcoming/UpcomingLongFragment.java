@@ -70,7 +70,7 @@ public class UpcomingLongFragment extends Fragment {
         if(contestsLong==null || contestsLong.size()==0)
         {
             emptyUpcomingLong.setVisibility(View.VISIBLE);
-            emptyNetworkIssueUpcomingLong.setVisibility(View.VISIBLE);
+            //emptyNetworkIssueUpcomingLong.setVisibility(View.VISIBLE);
         }
         else
             upcomingLongRecyclerView.setAdapter(new UpcomingLongAdapter(contestsLong));
