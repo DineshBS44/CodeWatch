@@ -24,7 +24,7 @@
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
-        <service
+        <!--<service
             android:name=".utils.NotificationService"
             android:enabled="true"
             android:exported="true"
@@ -34,7 +34,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </service>
+        </service>-->
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
