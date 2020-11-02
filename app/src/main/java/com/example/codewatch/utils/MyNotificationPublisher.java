@@ -14,7 +14,7 @@ public class MyNotificationPublisher extends BroadcastReceiver {
     public static String NOTIFICATION_ID = "notification-id" ;
     public static String NOTIFICATION = "notification" ;
     public void onReceive (Context context , Intent intent) {
-        /*NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context. NOTIFICATION_SERVICE ) ;
+        NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context. NOTIFICATION_SERVICE ) ;
         Notification notification = intent.getParcelableExtra( NOTIFICATION ) ;
         if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
             int importance = NotificationManager. IMPORTANCE_HIGH ;
@@ -25,16 +25,16 @@ public class MyNotificationPublisher extends BroadcastReceiver {
         int id = intent.getIntExtra( NOTIFICATION_ID , 0 ) ;
         assert notificationManager != null;
         Log.d("MyNotificationPublisher","It is running : : ");
-        notificationManager.notify(id , notification) ;*/
+        notificationManager.notify(id , notification) ;
 
-        NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context. NOTIFICATION_SERVICE ) ;
+        /*NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context. NOTIFICATION_SERVICE ) ;
         Notification notification = intent.getParcelableExtra( NOTIFICATION ) ;
 
 
         Intent intent2 = new Intent(context, NotificationService.class);
         intent2.putExtra(NotificationService.NOTIFICATION_ID, 1);
         intent2.putExtra(NotificationService.NOTIFICATION, notification);
-        context.startService(intent2);
+        context.startService(intent2);*/
 
     }
 }
