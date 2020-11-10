@@ -3,7 +3,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="contest_starts_soon">The contest will be starting soon</string>
     <string name="contest_live_now">The contest is live now</string>
-    <string name="about_text">Helps coders to keep track of the ongoing and upcoming contests in all the major Coding platforms and also notifies them about the upcoming contest 1 hour beforehand</string>
+    <string name="about_text">Coders can keep track of the ongoing and upcoming contests in all the major Coding platforms and also notifies them about the upcoming contest</string>
     <string name="codechef_link">https://www.codechef.com</string>
     <string name="codeforces_link">https://www.codeforces.com</string>
     <string name="atcoder_link">https://atcoder.jp</string>
