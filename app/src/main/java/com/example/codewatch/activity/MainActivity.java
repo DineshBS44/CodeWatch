@@ -79,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+
         progressBar = findViewById(R.id.progress_bar_overlay);
         rootView = findViewById(R.id.root_activty_main);
         overlayFrame = findViewById(R.id.overlay_frame);
@@ -290,6 +292,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         overlayFrame.displayOverlay(false);
+
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 
         setNotifications(contestsAll);
     }
