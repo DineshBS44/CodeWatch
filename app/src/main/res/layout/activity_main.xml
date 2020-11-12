@@ -68,6 +68,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimary"
                     app:itemHorizontalTranslationEnabled="false"
+                    style="@style/BottomNavigationView"
                     app:itemIconSize="25dp"
                     app:itemIconTint="@drawable/icon_background"
                     app:itemTextColor="@color/colorAccent"
