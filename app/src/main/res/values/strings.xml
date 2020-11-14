@@ -13,4 +13,5 @@
     <string name="leetcode_link">https://www.leetcode.com</string>
     <string name="topcoder_link">https://topcoder.com</string>
     <string name="no_internet">Please check your Internet connection</string>
+    <string name="with_for_coding">With ❤ for Coding</string>
 </resources>

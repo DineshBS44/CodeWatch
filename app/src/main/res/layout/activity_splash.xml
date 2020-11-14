@@ -21,4 +21,18 @@
         app:lottie_speed="2.5"
         app:lottie_loop="false" />
 
+    <TextView
+        android:id="@+id/tv_sponsor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/cerebri_sans_regular"
+        android:text="@string/with_for_coding"
+        android:textColor="@android:color/white"
+        android:textSize="15sp"
+        android:alpha="0.8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
