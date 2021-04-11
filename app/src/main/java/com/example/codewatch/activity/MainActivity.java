@@ -349,7 +349,7 @@ public class MainActivity extends AppCompatActivity {
                     notiNumLong++;
 
                     long futureInMillis = getFutureInMillis(objects);
-                    scheduleNotification(getNotification(objects, futureInMillis-durationInMillis), notiNum, futureInMillis);
+                    scheduleNotification(getNotification(objects, futureInMillis - durationInMillis), notiNum, futureInMillis);
 
                 }
             }
@@ -381,7 +381,7 @@ public class MainActivity extends AppCompatActivity {
     private void scheduleNotification(Notification notification, int notiNum, long futureInMillis) {
 
         futureInMillis = futureInMillis - durationInMillis;
-        Log.d("MainActivity","The alarm time is set to current time in millis is "+futureInMillis);
+        Log.d("MainActivity", "The alarm time is set to current time in millis is " + futureInMillis);
         long elapsedTime = SystemClock.elapsedRealtime();
         long time = System.currentTimeMillis();
         if (time > futureInMillis)
@@ -398,8 +398,8 @@ public class MainActivity extends AppCompatActivity {
         alarmManager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
 
         Log.d("MainActivity", "The time futureInMillis in notifications is " + notiNum);
-        Log.d("MainActivity","The elapsed time after reboot is " + elapsedTime);
-        Log.d("MainActivity","The time for which the notification is set is " + futureInMillis);
+        Log.d("MainActivity", "The elapsed time after reboot is " + elapsedTime);
+        Log.d("MainActivity", "The time for which the notification is set is " + futureInMillis);
     }
 
     private Notification getNotification(Objects contests, long time) {
@@ -439,6 +439,9 @@ public class MainActivity extends AppCompatActivity {
         builder.setAutoCancel(true);
         builder.setChannelId(NOTIFICATION_CHANNEL_ID);
         builder.setWhen(time);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                new Intent(this, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(contentIntent);
         return builder.build();
     }
 
