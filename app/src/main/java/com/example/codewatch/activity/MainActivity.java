@@ -440,7 +440,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setChannelId(NOTIFICATION_CHANNEL_ID);
         builder.setWhen(time);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+                new Intent(this, SplashActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(contentIntent);
         return builder.build();
     }
