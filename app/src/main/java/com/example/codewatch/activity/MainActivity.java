@@ -428,7 +428,7 @@ public class MainActivity extends AppCompatActivity {
                 notificationTitle = "Atcoder";
                 break;
             case "codingcompetitions.withgoogle.com":
-                notificationTitle = "Kickstart";
+                notificationTitle = "Google";
                 break;
         }
 
